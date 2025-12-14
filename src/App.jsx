@@ -1,49 +1,30 @@
-import { useState } from 'react'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import QuestionList from './components/QuestionList';
+import AddQuestion from './components/AddQuestion';
+import defaultQuestions from './data/defaultQuestions';
+import './App.css';
 
-import { useLocalStorage } from './hooks/useLocalStorage'
-import { defaultQuestions } from './data/defaultQuestions'
+function App() {
+  const [questions, setQuestions] = useState(() => {
+    const saved = localStorage.getItem('questions');
+    return saved ? JSON.parse(saved) : defaultQuestions;
+  });
 
+  useEffect(() => {
+    localStorage.setItem('questions', JSON.stringify(questions));
+  }, [questions]);
 
-export default function App() {
-const [questions, setQuestions] = useLocalStorage(
-'questions',
-defaultQuestions
-)
+  const addQuestion = (q) => setQuestions([...questions, q]);
+  const selectQuestion = (i) => alert(questions[i]);
 
-
-function addQuestion(text) {
-setQuestions([...questions, text])
+  return (
+    <div className="App" style={{ padding: '2rem', fontFamily: 'system-ui' }}>
+      <h1>Big Talk</h1>
+      <p>Klicka på en fråga för att se den i alert.</p>
+      <QuestionList questions={questions} onSelect={selectQuestion} />
+      <AddQuestion onAdd={addQuestion} />
+    </div>
+  );
 }
 
-
-return (
-<main style={{ padding: '1rem', maxWidth: 600 }}>
-<h1>Diskussionsfrågor</h1>
-
-
-<ul>
-{questions.map((q, i) => (
-<li key={i}>{q}</li>
-))}
-</ul>
-
-
-<form
-onSubmit={e => {
-e.preventDefault()
-const input = e.target.elements.question
-addQuestion(input.value)
-input.value = ''
-}}
->
-<input
-name="question"
-placeholder="Lägg till egen fråga"
-required
-/>
-<button>Lägg till</button>
-</form>
-</main>
-)
-}
+export default App;

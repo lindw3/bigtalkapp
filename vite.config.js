@@ -10,9 +10,9 @@ VitePWA({
 registerType: 'autoUpdate',
 includeAssets: ['favicon.svg'],
 manifest: {
-name: 'Discussion App',
-short_name: 'Discussion',
-description: 'Personliga diskussionsfrågor',
+name: 'BigTalk App',
+short_name: 'BigTalk',
+description: 'For authentic conversations',
 theme_color: '#ffffff',
 background_color: '#ffffff',
 display: 'standalone',
