@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import QuestionList from './components/QuestionList';
+import Questions from './components/Questions';
 import AddQuestion from './components/AddQuestion';
 import defaultQuestions from './data/defaultQuestions';
 import './App.css';
@@ -21,7 +21,7 @@ function App() {
     <div className="App" style={{ padding: '2rem', fontFamily: 'system-ui' }}>
       <h1>Big Talk</h1>
       <p>Klicka på en fråga för att se den i alert.</p>
-      <QuestionList questions={questions} onSelect={selectQuestion} />
+      <Questions questions={questions} onSelect={selectQuestion} />
       <AddQuestion onAdd={addQuestion} />
     </div>
   );
