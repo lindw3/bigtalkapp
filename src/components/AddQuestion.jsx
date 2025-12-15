@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function AddQuestion({ onAdd }) {
-  const [text, setText] = useState('');
+  const [question, setQuestion] = useState('');
+  const [category, setCategory] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    onAdd(trimmed);
-    setText('');
+    if (!question.trim() || !category.trim()) return;
+
+    // Skicka alltid ett objekt med question + category
+    onAdd({
+      question: question.trim(),
+      category: category.trim()
+    });
+
+    setQuestion('');
+    setCategory('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+    <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Write your question here"
-        style={{ padding: '0.5rem', width: '70%' }}
+        placeholder="Skriv en fråga"
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
       />
-      <button type="submit" style={{ padding: '0.5rem', marginLeft: '0.5rem' }}>
-        Lägg till
-      </button>
+      <input
+        placeholder="Kategori"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      />
+      <button type="submit">Lägg till</button>
     </form>
   );
 }

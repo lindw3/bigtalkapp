@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import Questions from './components/Questions';
-import AddQuestion from './components/AddQuestion';
-import defaultQuestions from './data/defaultQuestions';
 import './App.css';
+import { useState, useEffect } from 'react';
+import defaultQuestions from './data/defaultQuestions';
+import QuestionList from './components/QuestionList';
+import AddQuestion from './components/AddQuestion';
 
 function App() {
   const [questions, setQuestions] = useState(() => {
@@ -15,13 +15,13 @@ function App() {
   }, [questions]);
 
   const addQuestion = (q) => setQuestions([...questions, q]);
-  const selectQuestion = (i) => alert(questions[i]);
+
+  const selectQuestion = (i) => alert(questions[i].question);
 
   return (
     <div className="App" style={{ padding: '2rem', fontFamily: 'system-ui' }}>
       <h1>Big Talk</h1>
-      <p>Klicka på en fråga för att se den i alert.</p>
-      <Questions questions={questions} onSelect={selectQuestion} />
+      <QuestionList questions={questions} onSelect={selectQuestion} />
       <AddQuestion onAdd={addQuestion} />
     </div>
   );
