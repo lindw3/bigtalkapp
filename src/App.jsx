@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import defaultQuestions from './data/defaultQuestions';
 import QuestionList from './components/QuestionList';
 import AddQuestion from './components/AddQuestion';
+import logo from './assets/bta_logotype.png';
 
 function App() {
   const [questions, setQuestions] = useState(() => {
