@@ -32,3 +32,4 @@ export default function FooterNav({ view, setView }) {
       </button>
     </footer>
   );
+}

@@ -150,7 +150,7 @@ function App() {
         {/* FOOTER NAV (komponent med CSS Modules) */}
         <FooterNav view={view} setView={setView} />
       </div>
-    </    </div>
+    </div>
   );
 }
 
