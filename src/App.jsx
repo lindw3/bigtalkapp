@@ -1,8 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import logo from './assets/bta_logotype.svg';
 import defaultQuestions from './data/defaultQuestions';
 import AddQuestion from './components/AddQuestion';
 import Settings from './components/Settings';
+import FooterNav from './components/FooterNav'; // ⬅️ NY IMPORT
 
 function App() {
   // --------------------
@@ -34,10 +36,7 @@ function App() {
 
   useEffect(() => {
     if (enabledCategories) {
-      localStorage.setItem(
-        'enabledCategories',
-        JSON.stringify(enabledCategories)
-      );
+      localStorage.setItem('enabledCategories', JSON.stringify(enabledCategories));
     }
   }, [enabledCategories]);
 
@@ -79,10 +78,7 @@ function App() {
 
     let next;
     do {
-      next =
-        filteredQuestions[
-          Math.floor(Math.random() * filteredQuestions.length)
-        ];
+      next = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
     } while (activeQuestion && next.question === activeQuestion.question);
 
     return next;
@@ -209,18 +205,8 @@ function App() {
           )}
         </main>
 
-        {/* FOOTER NAV */}
-        <footer
-          style={{
-            marginTop: '2rem',
-            display: 'flex',
-            justifyContent: 'space-around'
-          }}
-        >
-          <button onClick={() => setView('main')}>🎲 Fråga</button>
-          <button onClick={() => setView('add')}>➕ Lägg till fråga</button>
-          <button onClick={() => setView('settings')}>⚙️ Inställningar</button>
-        </footer>
+        {/* FOOTER NAV (komponent med CSS Modules) */}
+        <FooterNav view={view} setView={setView} />
       </div>
     </div>
   );
