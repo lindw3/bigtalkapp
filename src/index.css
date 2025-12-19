@@ -11,6 +11,41 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --space-1: clamp(0.5rem, 2vw, 0.75rem);
+  --space-2: clamp(0.75rem, 2.5vw, 1rem);
+  --space-3: clamp(1rem, 3vw, 1.25rem);
+  --space-4: clamp(1.25rem, 4vw, 2rem);
+
+  /* Typografi (fluid) */
+  --fs-body: clamp(0.95rem, 3.5vw, 1rem);
+  --fs-question: clamp(1.1rem, 4.5vw, 1.5rem);
+  --fs-title: clamp(1.4rem, 5vw, 2rem);
+
+  /* Komponentmått (fluid) */
+  --logo-size: clamp(56px, 16vw, 80px);
+  --container-max: 42rem; /* ~672px */
+
+  /* Färger (monokrom bas) */
+  --c-fg: #000;
+  --c-bg: #fff;
+  --c-fg-invert: #fff;
+  --c-bg-invert: #000;
+  --c-border: #000;
+}
+
+/* Dark Mode – följ systemets preferenser */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-fg: #fff;
+    --c-bg: #1a1a1a;
+    --c-fg-invert: #000;
+    --c-bg-invert: #    --c-bg-invert: #fff;
+    --c-border: #fff;
+  }
+
+
+
 }
 
 a {
