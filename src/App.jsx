@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import logo from './assets/bta_logotype.svg';
+import styles from './App.module.css';
 import defaultQuestions from './data/defaultQuestions';
 import AddQuestion from './components/AddQuestion';
 import Settings from './components/Settings';
@@ -10,7 +11,6 @@ function App() {
   // --------------------
   // DATA
   // --------------------
-
   const [questions, setQuestions] = useState(() => {
     const saved = localStorage.getItem('questions');
     return saved ? JSON.parse(saved) : defaultQuestions;
@@ -29,7 +29,6 @@ function App() {
   // --------------------
   // PERSISTENCE
   // --------------------
-
   useEffect(() => {
     localStorage.setItem('questions', JSON.stringify(questions));
   }, [questions]);
@@ -43,7 +42,6 @@ function App() {
   // --------------------
   // CATEGORIES
   // --------------------
-
   const allCategories = [...new Set(questions.map(q => q.category))];
 
   useEffect(() => {
@@ -71,7 +69,6 @@ function App() {
   // --------------------
   // RANDOM LOGIC
   // --------------------
-
   const getRandomQuestion = () => {
     if (!filteredQuestions || filteredQuestions.length === 0) return null;
     if (filteredQuestions.length === 1) return filteredQuestions[0];
@@ -100,84 +97,30 @@ function App() {
   // --------------------
   // RENDER
   // --------------------
-
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        fontFamily: 'system-ui',
-        display: 'flex',
-        justifyContent: 'center'
-      }}
-    >
-      {/* CONTENT WRAPPER */}
-      <div
-        style={{
-          width: '100%',
-          maxWidth: '600px',
-          padding: '2rem',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
+    <div className={styles.app}>
+      <div className={styles.wrapper}>
         {/* HEADER */}
-        <header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            marginBottom: '1rem'
-          }}
-        >
-          <img
-            src={logo}
-            alt="BigTalk logo"
-            style={{ width: '80px', height: '80px' }}
-          />
-          <h1 style={{ margin: 0 }}>Big Talk</h1>
+        <header className={styles.header}>
+          <img src={logo} alt="BigTalk logo" className={styles.logo} />
+          <h1 className={styles.title}>Big Talk</h1>
         </header>
 
         {/* CONFIRMATION */}
         {showConfirmation && (
-          <div
-            style={{
-              textAlign: 'center',
-              marginBottom: '1rem',
-              fontSize: '0.9rem',
-              opacity: 1,
-              transition: 'opacity 0.5s ease'
-            }}
-          >
-            Frågan har lagts till!
-          </div>
+          <div className={styles.confirmation}>Frågan har lagts till!</div>
         )}
 
-        {/* MAIN */}
-        <main style={{ flex: 1 }}>
+        {/* MAIN (visar rätt vy baserat på 'view') */}
+        <main className={styles.main}>
           {view === 'main' && (
-            <div
-              style={{
-                border: '1px solid #000',
-                borderRadius: '12px',
-                padding: '2rem',
-                minHeight: '300px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '1.5rem',
-                  textAlign: 'center'
-                }}
-              >
+            <div className={styles.card}>
+              <div className={styles.questionText}>
                 {activeQuestion
                   ? activeQuestion.question
                   : 'Inga frågor matchar dina inställningar'}
               </div>
-
-              <button onClick={nextQuestion} style={{ marginTop: '2rem' }}>
+              <button className={styles.primaryBtn} onClick={nextQuestion}>
                 Ny fråga
               </button>
             </div>
@@ -188,7 +131,6 @@ function App() {
               onAdd={(q) => {
                 setQuestions(prev => [...prev, q]);
                 setShowConfirmation(true);
-
                 setTimeout(() => {
                   setShowConfirmation(false);
                 }, 1500);
@@ -208,7 +150,7 @@ function App() {
         {/* FOOTER NAV (komponent med CSS Modules) */}
         <FooterNav view={view} setView={setView} />
       </div>
-    </div>
+    </    </div>
   );
 }
 
