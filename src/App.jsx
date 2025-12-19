@@ -4,7 +4,7 @@ import logo from './assets/bta_logotype.svg';
 import defaultQuestions from './data/defaultQuestions';
 import AddQuestion from './components/AddQuestion';
 import Settings from './components/Settings';
-import FooterNav from './components/FooterNav'; // ⬅️ NY IMPORT
+import FooterNav from './components/FooterNav';
 
 function App() {
   // --------------------
