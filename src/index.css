@@ -19,11 +19,11 @@
 
   /* Typografi (fluid) */
   --fs-body: clamp(0.95rem, 3.5vw, 1rem);
-  --fs-question: clamp(1.1rem, 4.5vw, 1.5rem);
-  --fs-title: clamp(1.4rem, 5vw, 2rem);
+  --fs-question: clamp(1.5rem, 6vw, 2.5rem);
+  --fs-title: clamp(1.5rem, 8vw, 2.5rem);
 
   /* Komponentmått (fluid) */
-  --logo-size: clamp(56px, 16vw, 80px);
+  --logo-size: clamp(68px, 20vw, 100px);
   --container-max: 42rem; /* ~672px */
 
   /* Färger (monokrom bas) */
@@ -81,7 +81,9 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #000000;
+  border-color: #ffffff;
+  color: #ffffff
 }
 button:focus,
 button:focus-visible {
