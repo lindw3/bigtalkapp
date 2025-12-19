@@ -20,10 +20,10 @@
   /* Typografi (fluid) */
   --fs-body: clamp(0.95rem, 3.5vw, 1rem);
   --fs-question: clamp(1.5rem, 6vw, 2.5rem);
-  --fs-title: clamp(1.5rem, 8vw, 2.5rem);
+  --fs-title: clamp(2rem, 12vw, 7em);
 
   /* Komponentmått (fluid) */
-  --logo-size: clamp(68px, 20vw, 100px);
+  --logo-size: clamp(68px, 23vw, 128px);
   --container-max: 42rem; /* ~672px */
 
   /* Färger (monokrom bas) */
