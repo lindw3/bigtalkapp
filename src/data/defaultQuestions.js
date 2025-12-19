@@ -116,7 +116,7 @@ const defaultQuestions = [
     category: "Värderingar & Prioriteringar"
   },
   {
-    question: "Vad gör dig nyfiken just nu?",
+    question: "Vad är du nyfiken på just nu?",
     category: "Intressen & Drivkrafter"
   },
   {
@@ -138,6 +138,114 @@ const defaultQuestions = [
   {
     question: "Hur får man ditt förtroende?",
     category: "Sociala relationer"
+  },
+  {
+    question: "Vilken är din sämsta vana?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Har du någon hjärtefråga?",
+    category: "Värderingar & Prioriteringar"
+  },
+  {
+    question: "Hur vårdar man bäst en vänskap?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Är du mest introvert eller extrovert?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Vad särskiljer dig från andra?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "När känner du dig som mest utanför?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Vad vill du att andra ska ha för intryck av dig?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Hur skulle du agera om en vän ställer in i sista minuten flera gånger?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Vad gör du om någon i din närhet alltid avbryter dig i samtal?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Vad gör du om du märker att en vän börjar dra sig undan utan att förklara varför?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Hur mycket bryr du dig om hur du uppfattas av andra?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Vad är viktigast för att man ska ha en bra diskussion?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Hur hanterar du misslyckanden?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Vad är viktigast för dig: att jobba mot långsiktiga mål eller att njuta i nuet?",
+    category: "Värderingar & Prioriteringar"
+  },
+  {
+    question: "Vems intressen tenderar du att sätta först: dina eller andras?",
+    category: "Värderingar & Prioriteringar"
+  },
+  {
+    question: "Vad är du helst: Expert på få saker eller bra på flera saker?",
+    category: "Intressen & Drivkrafter"
+  },
+  {
+    question: "Vad gör du om du hamnar i en konflikt mellan två nära vänner?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Vad gör du om du märker att en vän ljuger för dig?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Hur hanterar du om en vän alltid pratar om sig själv och aldrig lyssnar?",
+    category: "Sociala relationer"
+  },
+  {
+    question: "Hur hanterar du om du får kritik som känns orättvis?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Hur mycket jämför du dig med andra?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Vad gör du om du känner att du inte utvecklas i ditt arbete?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Hur öppen är du för att pröva saker utanför din komfortzon?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Hur svårt är det för dig att bestämma dig för saker och ta beslut?",
+    category: "Självinsikt & Personlig utveckling"
+  },
+  {
+    question: "Hur viktigt är status för dig?",
+    category: "Värderingar & Prioriteringar"
+  },
+  {
+    question: "Hur ser du på balansen mellan ditt arbete och din fritid?",
+    category: "Värderingar & Prioriteringar"
+  },
+  {
+    question: "Vad tenderar du att följa: hjärtat eller hjärnan?",
+    category: "Värderingar & Prioriteringar"
   }
 ];
 
