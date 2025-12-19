@@ -39,13 +39,12 @@
   :root {
     --c-fg: #fff;
     --c-bg: #1a1a1a;
-    --c-fg-invert: #000;
-    --c-bg-invert: #    --c-bg-invert: #fff;
+    --c-fg-invert: #000;    
+    --c-bg-invert: #fff;
     --c-border: #fff;
   }
 
-
-
+  
 }
 
 a {
