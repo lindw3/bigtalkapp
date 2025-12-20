@@ -23,7 +23,6 @@ function App() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [animating, setAnimating] = useState(false);
   const [btnPressed, setBtnPressed] = useState(false);       // Ny fråga-knappen
-  const [btnAddPressed, setBtnAddPressed] = useState(false); // Lägg till-knappen
 
   // --------------------
   // CATEGORIES

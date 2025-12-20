@@ -1,23 +1,23 @@
 
 .footer {
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
   display: flex;
-  justify-content: space-around;
-  gap: var(--space-2);
+  justify-content: center;
+  gap: var(--space-4);
   flex-wrap: wrap; /* radbryt på små skärmar */
-  padding-bottom: var(--space-2);
+  padding-bottom: var(--space-4);
 }
 
 .navBtn {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-4);
   background: var(--c-bg);
   color: var(--c-fg);
   border: 1px solid var(--c-border);
   border-radius: 8px;
   padding: var(--space-1) var(--space-2);
-  font-size: var(--fs-body);
+  font-size: var(--fs-question);
   cursor: pointer;
   transition:
     background 300ms ease,

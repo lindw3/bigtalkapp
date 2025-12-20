@@ -228,7 +228,7 @@ const defaultQuestions = [
     category: "Självinsikt & Personlig utveckling"
   },
   {
-    question: "Hur öppen är du för att pröva saker utanför din komfortzon?",
+    question: "Hur öppen är du för att prova saker utanför din komfortzon?",
     category: "Självinsikt & Personlig utveckling"
   },
   {

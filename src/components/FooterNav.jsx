@@ -11,7 +11,6 @@ export default function FooterNav({ view, setView }) {
       >
         {/* Frågetecken */}
         <FaQuestionCircle className={styles.icon} aria-hidden="true" />
-        <span className={styles.label}>Fråga</span>
       </button>
 
       <button
@@ -20,7 +19,6 @@ export default function FooterNav({ view, setView }) {
       >
         {/* Svartvit plus */}
         <FaPlus className={styles.icon} aria-hidden="true" />
-        <span className={styles.label}>Lägg till fråga</span>
       </button>
 
       <button
@@ -29,7 +27,6 @@ export default function FooterNav({ view, setView }) {
       >
         {/* Kugghjul */}
         <FaCog className={styles.icon} aria-hidden="true" />
-        <span className={styles.label}>Inställningar</span>
       </button>
     </footer>
   );
