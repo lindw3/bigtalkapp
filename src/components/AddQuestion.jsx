@@ -1,31 +1,48 @@
 import { useState } from 'react';
+import styles from '../App.module.css';
 
-function AddQuestion({ onAdd }) {
-  const [question, setQuestion] = useState('');
+export default function AddQuestion({ onAdd }) {
+  const [questionText, setQuestionText] = useState('');
+  const [btnPressed, setBtnPressed] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!question.trim()) return;
+    if (!questionText.trim()) return;
+
+    // Kortvarig knapp-effekt
+    setBtnPressed(true);
 
     onAdd({
-      question: question.trim(),
-      category: 'Egna frågor'
+      question: questionText.trim(),
+      category: 'Egna frågor', // automatiskt
     });
 
-    setQuestion('');
+    setQuestionText('');
+
+    setTimeout(() => setBtnPressed(false), 300); // återställ knapp-effekt
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Skriv en fråga"
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-      />
+    <form className={styles.addQuestionForm} onSubmit={handleSubmit}>
+        <textarea
+          value={questionText}
+          onChange={(e) => setQuestionText(e.target.value)}
+          placeholder="Skriv ny fråga..."
+          required
+          rows={2}
+          maxLength={200}
+        />
 
-      <button type="submit">Lägg till</button>
+      <button
+        type="submit"
+        style={{
+          backgroundColor: btnPressed ? '#000' : '#fff',
+          color: btnPressed ? '#fff' : '#000',
+          borderColor: '#000', // alltid svart
+        }}
+      >
+        Lägg till
+      </button>
     </form>
   );
 }
-
-export default AddQuestion;

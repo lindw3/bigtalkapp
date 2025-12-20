@@ -20,10 +20,10 @@
   font-size: var(--fs-body);
   cursor: pointer;
   transition:
-    background 150ms ease,
-    color 150ms ease,
-    border-color 150ms ease,
-    transform 100ms ease;
+    background 300ms ease,
+    color 300ms ease,
+    border-color 300ms ease,
+    transform 200ms ease;
 }
 
 .icon {
@@ -60,7 +60,7 @@
   transform: translateY(1px);
 }
 
-/* Valfritt: finjustera för mycket små skärmar */
+/* Finjustera för mycket små skärmar */
 @media (max-width: 360px) {
    .navBtn {
     padding: var(--space-1);

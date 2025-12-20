@@ -15,10 +15,10 @@
   gap: var(--space-2);
 }
 
+/* HEADER */
 .header {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
 }
 
 .logo {
@@ -32,20 +32,23 @@
   line-height: 1.1;
 }
 
-.confirmation {
-  text-align: center;
-  margin-bottom: var(--space-2);
-  font-size: var(--fs-body);
-  opacity: 1;
-  transition: opacity 0.5s ease;
+.subtitle {
+  margin: 0;
+  font-size: var(--fs-question);
+  color: var(--color-text-secondary);
 }
+
+
 
 .main {
   flex: 1;
 }
 
+
+/* FRÅGOR */
+
+/* FRÅGERUTAN */
 .card {
-  border: 2px solid #000;
   border-radius: 12px;
   padding: var(--space-4);
   min-height: clamp(240px, 50dvh, 360px);
@@ -53,17 +56,107 @@
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-2);
+
+  /* Gradient */
+  background: linear-gradient(
+    145deg,          /* vinkel på gradienten */
+    #ffffff,         /* ljus färg (över) */
+    #f0f0f0          /* mörkare färg (under) */
+  );
+
+  /* subtil border */
+  border: 2px solid rgba(0, 0, 0, 0.75);
+
+  /* lätt “djup-effekt” */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+
+  color: var(--c-fg);
+
+  /* subtil “upplyft” känsla */
+  margin-top: 1rem;
 }
+
+
+
+/* FRÅGETEXT */
 
 .questionText {
   font-size: var(--fs-question);
   text-align: center;
 }
 
+    /* Fade + Slide för frågetext vid ny fråga */
+.questionText {
+  display: inline-block;          /* för transform */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-slide-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.fade-slide-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* NY FRÅGA-KNAPPEN */
 .primaryBtn {
-  margin-top: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  font-size: var(--fs-body);
-  border-radius: 10px;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #000; /* alltid svart ram */
+  background: #fff;       /* vit bakgrund normalt */
+  color: #000;            /* svart text normalt */
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.primaryBtn.active {
+  background: #000;  /* svart vid "flash" */
+  color: #fff;       /* vit text vid "flash" */
+}
+
+.primaryBtn:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* LÄGG TILL FRÅGA FORMULÄR */
+.addQuestionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.addQuestionForm label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #000;
+}
+
+.addQuestionForm textarea {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid #000;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+}
+
+
+
+/* LÄGG TILL FRÅGA */
+.confirmation {
+  text-align: center;
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-body);
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }

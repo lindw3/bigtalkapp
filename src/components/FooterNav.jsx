@@ -9,7 +9,7 @@ export default function FooterNav({ view, setView }) {
         className={`${styles.navBtn} ${view === 'main' ? styles.active : ''}`}
         onClick={() => setView('main')}
       >
-        {/* Byt ut mot Unicode om du vill: ❓ */}
+        {/* Frågetecken */}
         <FaQuestionCircle className={styles.icon} aria-hidden="true" />
         <span className={styles.label}>Fråga</span>
       </button>
@@ -18,7 +18,7 @@ export default function FooterNav({ view, setView }) {
         className={`${styles.navBtn} ${view === 'add' ? styles.active : ''}`}
         onClick={() => setView('add')}
       >
-        {/* Svartvit plus – Unicode ➕ funkar också */}
+        {/* Svartvit plus */}
         <FaPlus className={styles.icon} aria-hidden="true" />
         <span className={styles.label}>Lägg till fråga</span>
       </button>
@@ -27,6 +27,7 @@ export default function FooterNav({ view, setView }) {
                className={`${styles.navBtn} ${view === 'settings' ? styles.active : ''}`}
         onClick={() => setView('settings')}
       >
+        {/* Kugghjul */}
         <FaCog className={styles.icon} aria-hidden="true" />
         <span className={styles.label}>Inställningar</span>
       </button>
