@@ -9,9 +9,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'BigTalk',
-        short_name: 'BigTalk',
-        start_url: '/',
+        name: 'BigTalk App',
+        short_name: 'BigTalk App',
+        start_url: '/bigtalkapp/',
         scope: '/',
         display: 'standalone',
         background_color: '#ffffff',
