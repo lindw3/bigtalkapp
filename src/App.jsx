@@ -5,6 +5,8 @@ import defaultQuestions from './data/defaultQuestions';
 import AddQuestion from './components/AddQuestion';
 import Settings from './components/Settings';
 import FooterNav from './components/FooterNav';
+import InstallPrompt from './components/InstallPrompt';
+
 
 function App() {
   // --------------------
@@ -222,6 +224,7 @@ function App() {
         </main>
 
         <FooterNav view={view} setView={setView} />
+        <InstallPrompt />
       </div>
     </div>
   );

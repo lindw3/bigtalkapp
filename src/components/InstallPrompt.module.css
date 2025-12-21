@@ -1,0 +1,57 @@
+.promptContainer {
+  position: fixed;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  z-index: 1000;
+}
+
+.promptContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs-gap-4);
+  background: #000;
+  color: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  font-size: var(fs-body);
+}
+
+.promptText {
+  line-height: 1.4;
+  text-align: center;
+}
+
+.promptButtons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.installBtn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.installBtn:hover {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.closeBtn {
+  background: none;
+  color: #fff;
+  border: none;
+  font-size: var(--fs-body);
+  cursor: pointer;
+}
