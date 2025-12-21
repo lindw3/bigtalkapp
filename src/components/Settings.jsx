@@ -8,7 +8,7 @@ function Settings({ categories, enabled, setEnabled }) {
   };
 
   return (
-    <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <h2>Inkludera kategorier</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

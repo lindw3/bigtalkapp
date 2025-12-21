@@ -12,17 +12,21 @@ function App() {
   // --------------------
   const [questions, setQuestions] = useState(() => {
     const saved = localStorage.getItem('questions');
-    return saved ? JSON.parse(saved) : defaultQuestions;
+    if (!saved) return defaultQuestions;
+
+    return JSON.parse(saved).map(q => ({
+      ...q,
+      id: q.id ?? crypto.randomUUID(),
+    }));
   });
 
   // --------------------
   // UI STATE
   // --------------------
   const [activeQuestion, setActiveQuestion] = useState(null);
-  const [view, setView] = useState('main'); // 'main' | 'add' | 'settings'
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [view, setView] = useState('main'); // main | add | settings
   const [animating, setAnimating] = useState(false);
-  const [btnPressed, setBtnPressed] = useState(false);       // Ny fråga-knappen
+  const [btnPressed, setBtnPressed] = useState(false);
 
   // --------------------
   // CATEGORIES
@@ -35,6 +39,14 @@ function App() {
   const prevCategoriesRef = useRef(allCategories);
 
   // --------------------
+  // SEEN QUESTIONS (för "alla frågor innan repetition")
+  // --------------------
+  const [seenQuestionIds, setSeenQuestionIds] = useState(() => {
+    const saved = localStorage.getItem('seenQuestionIds');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // --------------------
   // LOCALSTORAGE
   // --------------------
   useEffect(() => {
@@ -45,70 +57,114 @@ function App() {
     localStorage.setItem('enabledCategories', JSON.stringify(enabledCategories));
   }, [enabledCategories]);
 
+  useEffect(() => {
+    localStorage.setItem('seenQuestionIds', JSON.stringify(seenQuestionIds));
+  }, [seenQuestionIds]);
+
   // --------------------
   // SYNC NEW CATEGORIES
   // --------------------
   useEffect(() => {
     const prevCategories = prevCategoriesRef.current;
-    const genuinelyNew = allCategories.filter(cat => !prevCategories.includes(cat));
+    const genuinelyNew = allCategories.filter(
+      cat => !prevCategories.includes(cat)
+    );
+
     if (genuinelyNew.length > 0) {
       setEnabledCategories(prev => [...prev, ...genuinelyNew]);
     }
+
     prevCategoriesRef.current = allCategories;
   }, [allCategories]);
 
   // --------------------
   // FILTER QUESTIONS
   // --------------------
-  const filteredQuestions = questions.filter(q => enabledCategories.includes(q.category));
+  const filteredQuestions = questions.filter(q =>
+    enabledCategories.includes(q.category)
+  );
 
   // --------------------
   // RANDOM QUESTION LOGIC
   // --------------------
   const getRandomQuestion = () => {
     if (filteredQuestions.length === 0) return null;
-    if (filteredQuestions.length === 1) return filteredQuestions[0];
 
+    // tillgängliga frågor = filtrerade minus redan sedda
+    let availableQuestions = filteredQuestions.filter(
+      q => !seenQuestionIds.includes(q.id)
+    );
+
+    // om alla har visats → återställ
+    if (availableQuestions.length === 0) {
+      setSeenQuestionIds([]);
+      availableQuestions = filteredQuestions;
+    }
+
+    // om endast en fråga finns kvar
+    if (availableQuestions.length === 1) return availableQuestions[0];
+
+    // slumpa ny fråga (inte samma som aktuell)
     let next;
     do {
-      next = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
-    } while (activeQuestion && next.question === activeQuestion.question);
+      next = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+    } while (activeQuestion && next.id === activeQuestion.id);
 
     return next;
   };
 
   const nextQuestion = () => {
-    if (animating) return; // Hindra spamming
-    setAnimating(true);    // start fade-slide-out
+    if (animating) return;
+    setAnimating(true);
 
     setTimeout(() => {
-      setActiveQuestion(getRandomQuestion());
-      setAnimating(false); // fade-slide-in
-    }, 300); // matcha CSS-transition
+      const next = getRandomQuestion();
+      setActiveQuestion(next);
+
+      if (next) {
+        setSeenQuestionIds(prev => [...prev, next.id]);
+      }
+
+      setAnimating(false);
+    }, 300);
   };
 
   const handleNextQuestion = () => {
     setBtnPressed(true);
     nextQuestion();
-    setTimeout(() => setBtnPressed(false), 350); // återställ
+    setTimeout(() => setBtnPressed(false), 350);
   };
 
   // --------------------
-  // INITIAL QUESTION (mount)
+  // INITIAL QUESTION
   // --------------------
   useEffect(() => {
     if (!activeQuestion && filteredQuestions.length > 0) {
-      setActiveQuestion(getRandomQuestion());
+      const next = getRandomQuestion();
+      setActiveQuestion(next);
+      if (next) setSeenQuestionIds([next.id]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // --------------------
+  // OWN QUESTIONS
+  // --------------------
+  const ownQuestions = questions.filter(
+    q => q.category === 'Egna frågor'
+  );
+
+  const deleteQuestion = (id) => {
+    setQuestions(prev => prev.filter(q => q.id !== id));
+    setSeenQuestionIds(prev => prev.filter(seenId => seenId !== id));
+  };
 
   // --------------------
   // RENDER
   // --------------------
   return (
     <div className={styles.app}>
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} style={{ padding: 'env(safe-area-inset, var(--space-4))' }}>
         {/* HEADER */}
         <header className={styles.header}>
           <img src={logo} alt="BigTalk logo" className={styles.logo} />
@@ -116,15 +172,8 @@ function App() {
           <h2 className={styles.subtitle}>App</h2>
         </header>
 
-        {/* CONFIRMATION */}
-        {showConfirmation && (
-          <div className={styles.confirmation}>
-            Frågan har lagts till!
-          </div>
-        )}
-
         {/* MAIN */}
-        <main className={styles.main}>
+        <main className={styles.main} style={{ flex: 1 }}>
           {view === 'main' && (
             <div className={styles.card}>
               <div
@@ -145,7 +194,7 @@ function App() {
                 style={{
                   backgroundColor: btnPressed ? '#000' : '#fff',
                   color: btnPressed ? '#fff' : '#000',
-                  borderColor: '#000', // alltid svart
+                  borderColor: '#000',
                 }}
               >
                 Ny fråga
@@ -155,11 +204,12 @@ function App() {
 
           {view === 'add' && (
             <AddQuestion
-            onAdd={q => {
-              setQuestions(prev => [...prev, q]);
-              setShowConfirmation(true);
-              setTimeout(() => setShowConfirmation(false), 1500);
-              }}/>
+              onAdd={(q) => {
+                setQuestions(prev => [...prev, q]);
+              }}
+              ownQuestions={ownQuestions}
+              onDelete={deleteQuestion}
+            />
           )}
 
           {view === 'settings' && (
@@ -171,7 +221,6 @@ function App() {
           )}
         </main>
 
-        {/* FOOTER */}
         <FooterNav view={view} setView={setView} />
       </div>
     </div>
