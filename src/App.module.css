@@ -8,6 +8,13 @@
   align-items: center;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 .wrapper {
   flex: 1; 
   display: flex;
@@ -18,6 +25,7 @@
   max-width: var(--container-max);
   padding: env(safe-area-inset, var(--space-4));
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 
