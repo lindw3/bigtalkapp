@@ -49,7 +49,7 @@ export default function InstallPrompt() {
               <FiShare style={{ verticalAlign: 'middle', margin: '0 0.2rem' }} /> → Lägg till på hemskärmen.
             </>
           ) : (
-            'Installera BigTalk App som app på din enhet.'
+            'BigTalk App fungerar bäst om den installeras som app på din enhet.'
           )}
         </span>
         <div className={styles.promptButtons}>
