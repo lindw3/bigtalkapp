@@ -29,6 +29,7 @@
   display: flex;
   justify-content: center;
   gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .installBtn {

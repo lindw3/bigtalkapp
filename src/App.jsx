@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import logo from './assets/bta_logotype.svg';
 import styles from './App.module.css';
 import defaultQuestions from './data/defaultQuestions';
@@ -7,7 +7,6 @@ import Settings from './components/Settings';
 import FooterNav from './components/FooterNav';
 import InstallPrompt from './components/InstallPrompt';
 
-
 function App() {
   // --------------------
   // QUESTIONS
@@ -15,11 +14,7 @@ function App() {
   const [questions, setQuestions] = useState(() => {
     const saved = localStorage.getItem('questions');
     if (!saved) return defaultQuestions;
-
-    return JSON.parse(saved).map(q => ({
-      ...q,
-      id: q.id ?? crypto.randomUUID(),
-    }));
+    return JSON.parse(saved);
   });
 
   // --------------------
@@ -33,7 +28,7 @@ function App() {
   // --------------------
   // CATEGORIES
   // --------------------
-  const allCategories = [...new Set(questions.map(q => q.category))];
+  const allCategories = useMemo(() => [...new Set(questions.map(q => q.category))], [questions]);
   const [enabledCategories, setEnabledCategories] = useState(() => {
     const saved = localStorage.getItem('enabledCategories');
     return saved ? JSON.parse(saved) : allCategories;
@@ -41,7 +36,7 @@ function App() {
   const prevCategoriesRef = useRef(allCategories);
 
   // --------------------
-  // SEEN QUESTIONS (för "alla frågor innan repetition")
+  // SEEN QUESTIONS
   // --------------------
   const [seenQuestionIds, setSeenQuestionIds] = useState(() => {
     const saved = localStorage.getItem('seenQuestionIds');
@@ -49,18 +44,27 @@ function App() {
   });
 
   // --------------------
-  // LOCALSTORAGE
+  // LOCALSTORAGE (debounced)
   // --------------------
   useEffect(() => {
-    localStorage.setItem('questions', JSON.stringify(questions));
+    const id = setTimeout(() => {
+      localStorage.setItem('questions', JSON.stringify(questions));
+    }, 300);
+    return () => clearTimeout(id);
   }, [questions]);
 
   useEffect(() => {
-    localStorage.setItem('enabledCategories', JSON.stringify(enabledCategories));
+    const id = setTimeout(() => {
+      localStorage.setItem('enabledCategories', JSON.stringify(enabledCategories));
+    }, 300);
+    return () => clearTimeout(id);
   }, [enabledCategories]);
 
   useEffect(() => {
-    localStorage.setItem('seenQuestionIds', JSON.stringify(seenQuestionIds));
+    const id = setTimeout(() => {
+      localStorage.setItem('seenQuestionIds', JSON.stringify(seenQuestionIds));
+    }, 300);
+    return () => clearTimeout(id);
   }, [seenQuestionIds]);
 
   // --------------------
@@ -68,22 +72,27 @@ function App() {
   // --------------------
   useEffect(() => {
     const prevCategories = prevCategoriesRef.current;
-    const genuinelyNew = allCategories.filter(
-      cat => !prevCategories.includes(cat)
-    );
-
+    const genuinelyNew = allCategories.filter(cat => !prevCategories.includes(cat));
     if (genuinelyNew.length > 0) {
       setEnabledCategories(prev => [...prev, ...genuinelyNew]);
     }
-
     prevCategoriesRef.current = allCategories;
   }, [allCategories]);
 
   // --------------------
-  // FILTER QUESTIONS
+  // FILTERED QUESTIONS (memoized)
   // --------------------
-  const filteredQuestions = questions.filter(q =>
-    enabledCategories.includes(q.category)
+  const filteredQuestions = useMemo(() => 
+    questions.filter(q => enabledCategories.includes(q.category)), 
+    [questions, enabledCategories]
+  );
+
+  // --------------------
+  // OWN QUESTIONS (memoized)
+  // --------------------
+  const ownQuestions = useMemo(() => 
+    questions.filter(q => q.category === 'Egna frågor'), 
+    [questions]
   );
 
   // --------------------
@@ -92,25 +101,20 @@ function App() {
   const getRandomQuestion = () => {
     if (filteredQuestions.length === 0) return null;
 
-    // tillgängliga frågor = filtrerade minus redan sedda
-    let availableQuestions = filteredQuestions.filter(
-      q => !seenQuestionIds.includes(q.id)
-    );
-
-    // om alla har visats → återställ
+    let availableQuestions = filteredQuestions.filter(q => !seenQuestionIds.includes(q.id));
     if (availableQuestions.length === 0) {
       setSeenQuestionIds([]);
       availableQuestions = filteredQuestions;
     }
 
-    // om endast en fråga finns kvar
-    if (availableQuestions.length === 1) return availableQuestions[0];
-
-    // slumpa ny fråga (inte samma som aktuell)
     let next;
-    do {
-      next = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
-    } while (activeQuestion && next.id === activeQuestion.id);
+    if (availableQuestions.length === 1) {
+      next = availableQuestions[0];
+    } else {
+      do {
+        next = availableQuestions[Math.floor(Math.random() * availableQuestions.length)];
+      } while (activeQuestion && next.id === activeQuestion.id);
+    }
 
     return next;
   };
@@ -122,11 +126,7 @@ function App() {
     setTimeout(() => {
       const next = getRandomQuestion();
       setActiveQuestion(next);
-
-      if (next) {
-        setSeenQuestionIds(prev => [...prev, next.id]);
-      }
-
+      if (next) setSeenQuestionIds(prev => [...prev, next.id]);
       setAnimating(false);
     }, 300);
   };
@@ -150,12 +150,8 @@ function App() {
   }, []);
 
   // --------------------
-  // OWN QUESTIONS
+  // DELETE OWN QUESTION
   // --------------------
-  const ownQuestions = questions.filter(
-    q => q.category === 'Egna frågor'
-  );
-
   const deleteQuestion = (id) => {
     setQuestions(prev => prev.filter(q => q.id !== id));
     setSeenQuestionIds(prev => prev.filter(seenId => seenId !== id));
@@ -167,27 +163,17 @@ function App() {
   return (
     <div className={styles.app}>
       <div className={styles.wrapper} style={{ padding: 'env(safe-area-inset, var(--space-4))' }}>
-        {/* HEADER */}
         <header className={styles.header}>
           <img src={logo} alt="BigTalk logo" className={styles.logo} />
           <h1 className={styles.title}>BigTalk</h1>
           <h2 className={styles.subtitle}>App</h2>
         </header>
 
-        {/* MAIN */}
         <main className={styles.main} style={{ flex: 1 }}>
           {view === 'main' && (
             <div className={styles.card}>
-              <div
-                className={`${styles.questionText} ${
-                  animating
-                    ? styles['fade-slide-out']
-                    : styles['fade-slide-in']
-                }`}
-              >
-                {activeQuestion
-                  ? activeQuestion.question
-                  : 'Inga frågor matchar dina inställningar'}
+              <div className={`${styles.questionText} ${animating ? styles['fade-slide-out'] : styles['fade-slide-in']}`}>
+                {activeQuestion ? activeQuestion.question : 'Inga frågor matchar dina inställningar'}
               </div>
 
               <button
@@ -206,9 +192,7 @@ function App() {
 
           {view === 'add' && (
             <AddQuestion
-              onAdd={(q) => {
-                setQuestions(prev => [...prev, q]);
-              }}
+              onAdd={(q) => setQuestions(prev => [...prev, q])}
               ownQuestions={ownQuestions}
               onDelete={deleteQuestion}
             />

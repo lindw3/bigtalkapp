@@ -14,6 +14,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  min-height: 100%;
   max-width: var(--container-max);
   padding: env(safe-area-inset, var(--space-4));
   box-sizing: border-box;
@@ -110,6 +111,11 @@
   padding-right: 0.25rem;
 }
 
+.questionListTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+}
+
 .questionListItem {
   display: flex;
   justify-content: space-between;
@@ -152,6 +158,13 @@
   color: #fff;
 }
 
+@media (hover: hover) {
+  .primaryBtn:hover {
+    background: #000;
+    color: #fff;
+  }
+}
+
 /* LÄGG TILL FRÅGA FORMULÄR */
 .addQuestionForm {
   display: flex;
@@ -171,7 +184,7 @@
 
 .addQuestionForm textarea {
   padding: 0.5rem;
-  font-size: var(--fs-body);
+  font-size: 16px;
   border: 2px solid #000;
   border-radius: 8px;
   outline: none;
