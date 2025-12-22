@@ -31,6 +31,20 @@ html, body {
   overflow: hidden;
 }
 
+   /* Anpassat till datorskärm om man skulle öppna i datorn */
+@media (min-width: 768px) {
+  .app {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    justify-content: flex-start;   
+  }
+
+  .wrapper { 
+    overflow: visible;
+  }
+}
+
 
 /* HEADER */
 .header {
