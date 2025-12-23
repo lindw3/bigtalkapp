@@ -8,9 +8,10 @@ function Settings({ categories, enabled, setEnabled }) {
   };
 
   return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column'}}>
+      <div style= {{display: 'flex', justifyContent: 'center' }}>
       <h2>Inkludera kategorier</h2>
-
+      </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {categories.map(cat => {
           const isOn = enabled.includes(cat);

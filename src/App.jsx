@@ -181,15 +181,21 @@ function App() {
         <main className={styles.main} style={{ flex: 1 }}>
           {view === 'main' && (
             <div className={styles.card}>
-              <div
-                className={`${styles.questionText} ${
-                  animating ? styles['fade-slide-out'] : styles['fade-slide-in']
-                }`}
-              >
-                {activeQuestion
-                  ? activeQuestion.question
-                  : 'Inga frågor matchar dina inställningar'}
-              </div>
+              {activeQuestion && (
+                <div className={styles.questionCategory}>
+                  {activeQuestion.category}
+                </div>
+                )}
+
+                <div 
+                  className={`${styles.questionText} ${
+                    animating ? styles['fade-slide-out'] : styles['fade-slide-in']
+                  }`}
+                >
+                    {activeQuestion
+                    ? activeQuestion.question
+                    : 'Inga frågor matchar dina inställningar'}
+            </div>
 
               <button
                 className={styles.primaryBtn}

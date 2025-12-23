@@ -18,6 +18,17 @@ html, body {
   align-items: center;
 }
 
+    /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .app {
+    position: relative;
+    height: auto;
+    min-height: 100dvh;
+    justify-content: flex-start;
+  }
+}
+
+
 .wrapper {
   flex: 1; 
   display: flex;
@@ -31,7 +42,17 @@ html, body {
   overflow: hidden;
 }
 
-   /* Anpassat till datorskärm om man skulle öppna i datorn */
+    /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .wrapper {
+    justify-content: flex-start; /* 🔑 SLUTA trycka isär */
+    min-height: auto;
+    overflow-y: auto;
+  }
+}
+
+
+   /* Datorskärm */
 @media (min-width: 768px) {
   .app {
     position: relative;
@@ -50,6 +71,13 @@ html, body {
 .header {
   display: flex;
   align-items: center;
+}
+
+    /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .header {
+    flex-shrink: 0;
+  }
 }
 
 .logo {
@@ -74,15 +102,24 @@ html, body {
   flex: 1;
 }
 
+    /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .main {
+    flex: 0;
+  }
+}
+
+
 
 /* FRÅGOR */
 
-/* FRÅGERUTAN */
+    /* FRÅGERUTAN */
 .card {
   border-radius: 12px;
   padding: var(--space-4);
-  min-height: clamp(240px, 50dvh, 360px);
-  max-height: 80dvh;
+
+  height: clamp(260px, 55dvh, 360px);
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -98,18 +135,41 @@ html, body {
   margin-top: var(--space-4);
 }
 
+   /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .card {
+    height: clamp(200px, 32dvh, 260px);
+    padding: var(--space-3);
+  }
+}
+
+    /* Desktopanpassning */
+@media (min-width: 768px) {
+  .card {
+    height: clamp(260px, 40vh, 340px);
+  }
+}
 
 
-/* FRÅGETEXT */
-
+    /* FRÅGETEXT */
 .questionText {
   font-size: var(--fs-question);
   text-align: center;
+  overflow-y: auto;
+  flex: 1;
+}
+
+    /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .questionText {
+    font-size: clamp(0.95rem, 2.5vw, var(--fs-question));
+    line-height: 1.35;
+  }
 }
 
     /* Fade + Slide för frågetext vid ny fråga */
 .questionText {
-  display: inline-block;          /* för transform */
+  display: inline-block;          
   transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 1;
   transform: translateY(0);
@@ -125,7 +185,18 @@ html, body {
   transform: translateY(0);
 }
 
-/* Lista med egentillagda frågor */
+    /* FRÅGEKATEGORI */
+.questionCategory {
+  font-size: 0.75rem;
+  text-align: center;
+  opacity: 0.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+
+    /* Lista med egentillagda frågor */
 .questionList {
   margin-top: var(--space-4);
   max-height: 40dvh;
@@ -171,6 +242,14 @@ html, body {
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+  /* Liggande skärm */
+@media (orientation: landscape) and (max-width: 932px) {
+  .primaryBtn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
 }
 
 .primaryBtn.active {

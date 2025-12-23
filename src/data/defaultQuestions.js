@@ -158,7 +158,7 @@ const defaultQuestions = [
     question: "Vad gör du om du märker att en vän ljuger för dig?", 
     category: "Sociala relationer" },
   { id: "d_054", 
-    question: "Hur hanterar du om en vän alltid pratar om sig själv och aldrig lyssnar?", 
+    question: "Vad gör du om en vän alltid pratar om sig själv och aldrig lyssnar?", 
     category: "Sociala relationer" },
   { id: "d_055", 
     question: "Hur hanterar du om du får kritik som känns orättvis?", 
