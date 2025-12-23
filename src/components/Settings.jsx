@@ -1,4 +1,8 @@
+import { useLocale } from '../locale/LocaleContext';
+
 function Settings({ categories, enabled, setEnabled }) {
+  const { t, lang, setLang } = useLocale();
+
   const toggleCategory = (category) => {
     setEnabled(prev =>
       prev.includes(category)
@@ -9,10 +13,17 @@ function Settings({ categories, enabled, setEnabled }) {
 
   return (
       <div style={{ display: 'flex', flexDirection: 'column'}}>
-      <div style= {{display: 'flex', justifyContent: 'center' }}>
-      <h2>Inkludera kategorier</h2>
+      <div style={{ display: 'flex', alignItems: 'right', justifyContent: 'center'}}>
+          <label >{t('language')}:</label>
+          <select value={lang} onChange={(e) => setLang(e.target.value)}>
+            <option value="sv">SV</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+      <div style= {{display: 'flex', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
+        <h2>{t('includeCategories')}</h2>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
         {categories.map(cat => {
           const isOn = enabled.includes(cat);
 
@@ -33,8 +44,8 @@ function Settings({ categories, enabled, setEnabled }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <span>{cat}</span>
-              <span>{isOn ? 'JA' : 'NEJ'}</span>
+              <span>{t(`categories.${cat}`) || cat}</span>
+              <span>{isOn ? t('yes') : t('no')}</span>
             </div>
           );
         })}

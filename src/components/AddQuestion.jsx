@@ -1,17 +1,21 @@
 import { useState, useCallback, memo } from 'react';
 import styles from '../App.module.css';
 import { generateId } from '../utils/generateId';
+import { useLocale } from '../locale/LocaleContext';
 
 // --- Memoized list item för snabb rendering ---
 const QuestionListItem = memo(function ({ question, onDelete }) {
+  const { t, lang } = useLocale();
+  const text = typeof question.question === 'string' ? question.question : (question.question && (question.question[lang] || question.question.sv || ''));
+
   return (
     <div className={styles.questionListItem}>
-      <span>{question.question}</span>
+      <span>{text}</span>
       <button
         type="button"
         className={styles.deleteBtn}
         onClick={() => onDelete(question.id)}
-        aria-label="Ta bort fråga"
+        aria-label={t('deleteQuestion')}
       >
         ✕
       </button>
@@ -23,6 +27,8 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
   const [questionText, setQuestionText] = useState('');
   const [btnPressed, setBtnPressed] = useState(false);
 
+  const { t } = useLocale();
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -33,8 +39,9 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
 
       onAdd({
         id: generateId(),
+        // user added questions are stored as plain text (no translations)
         question: trimmed,
-        category: 'Egna frågor',
+        category: 'ownQuestions',
       });
 
       setQuestionText('');
@@ -49,7 +56,7 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
         <textarea
           value={questionText}
           onChange={(e) => setQuestionText(e.target.value)}
-          placeholder="Skriv ny fråga..."
+          placeholder={t('addQuestionPlaceholder')}
           required
           rows={2}
           maxLength={200}
@@ -59,13 +66,13 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
           type="submit"
           className={`${styles.primaryBtn} ${btnPressed ? styles.active : ''}`}
         >
-          Lägg till
+          {t('addButton')}
         </button>
       </form>
 
       {ownQuestions.length > 0 && (
         <div className={styles.questionList}>
-          <h3 className={styles.questionListTitle}>Tillagda frågor</h3>
+          <h3 className={styles.questionListTitle}>{t('addedQuestions')}</h3>
           {ownQuestions.map((q) => (
             <QuestionListItem key={q.id} question={q} onDelete={onDelete} />
           ))}

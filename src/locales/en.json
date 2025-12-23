@@ -1,0 +1,20 @@
+{
+  "addQuestionPlaceholder": "Write a new question...",
+  "addButton": "Add",
+  "addedQuestions": "Added questions",
+  "deleteQuestion": "Delete question",
+  "includeCategories": "Include categories",
+  "yes": "YES",
+  "no": "NO",
+  "language": "Language",
+  "no_matching_questions": "No questions match your filters",
+  "rotate_prompt": "Please rotate your device to portrait orientation.",
+  "rotate_hint": "The app works best in portrait mode \u21bb",
+  "categories": {
+    "self_insight": "Self-awareness & Growth",
+    "values": "Values & Priorities",
+    "interests": "Interests & Drives",
+    "social": "Social relationships",
+    "ownQuestions": "Added questions"
+  }
+}

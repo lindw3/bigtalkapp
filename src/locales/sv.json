@@ -1,0 +1,20 @@
+{
+  "addQuestionPlaceholder": "Skriv ny fråga...",
+  "addButton": "Lägg till",
+  "addedQuestions": "Tillagda frågor",
+  "deleteQuestion": "Ta bort fråga",
+  "includeCategories": "Inkludera kategorier",
+  "yes": "JA",
+  "no": "NEJ",
+  "language": "Språk",
+  "no_matching_questions": "Inga frågor matchar dina inställningar",
+  "rotate_prompt": "Vänligen rotera din enhet till stående läge.",
+  "rotate_hint": "Appen fungerar bäst i porträttläge \u21bb",
+  "categories": {
+    "self_insight": "Självinsikt & Personlig utveckling",
+    "values": "Värderingar & Prioriteringar",
+    "interests": "Intressen & Drivkrafter",
+    "social": "Sociala relationer",
+    "ownQuestions": "Egna frågor"
+  }
+}

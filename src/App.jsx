@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useLocale } from './locale/LocaleContext';
 import logo from './assets/bta_logotype.svg';
 import styles from './App.module.css';
 import defaultQuestions from './data/defaultQuestions';
@@ -11,11 +12,28 @@ function App() {
   // --------------------
   // QUESTIONS
   // --------------------
+  const CATEGORY_LEGACY_MAP = {
+    'Självinsikt & Personlig utveckling': 'self_insight',
+    'Värderingar & Prioriteringar': 'values',
+    'Intressen & Drivkrafter': 'interests',
+    'Sociala relationer': 'social',
+    'Egna frågor': 'ownQuestions'
+  };
+
   const [questions, setQuestions] = useState(() => {
     const saved = localStorage.getItem('questions');
     if (!saved) return defaultQuestions;
 
-    const parsed = JSON.parse(saved);
+    let parsed = JSON.parse(saved);
+
+    // Mappa gamla kategori-etiketter till nya nycklar
+    parsed = parsed.map((q) => {
+      if (q && typeof q.category === 'string') {
+        const mapped = CATEGORY_LEGACY_MAP[q.category] || q.category;
+        return { ...q, category: mapped };
+      }
+      return q;
+    });
 
     // Sync: lägg till nya frågor från defaultQuestions som inte redan finns
     const savedIds = parsed.map(q => q.id);
@@ -39,7 +57,15 @@ function App() {
   const allCategories = [...new Set(questions.map(q => q.category))];
   const [enabledCategories, setEnabledCategories] = useState(() => {
     const saved = localStorage.getItem('enabledCategories');
-    return saved ? JSON.parse(saved) : allCategories;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        return parsed.map(cat => CATEGORY_LEGACY_MAP[cat] || cat);
+      } catch {
+        return allCategories;
+      }
+    }
+    return allCategories;
   });
   const prevCategoriesRef = useRef(allCategories);
 
@@ -93,6 +119,22 @@ function App() {
   const filteredQuestions = questions.filter(q =>
     enabledCategories.includes(q.category)
   );
+
+  // Helpers for localization-aware rendering
+  const { t, lang } = useLocale();
+
+  const getQuestionText = (q) => {
+    if (!q) return '';
+    if (typeof q.question === 'string') return q.question;
+    if (q.question && typeof q.question === 'object') return q.question[lang] || q.question.sv || '';
+    return '';
+  };
+
+  const getCategoryLabel = (key) => {
+    if (!key) return '';
+    return t(`categories.${key}`) || key;
+  };
+
 
   // --------------------
   // RANDOM QUESTION LOGIC
@@ -215,7 +257,7 @@ function App() {
   // OWN QUESTIONS
   // --------------------
   const ownQuestions = questions.filter(
-    q => q.category === 'Egna frågor'
+    q => q.category === 'ownQuestions'
   );
 
   const deleteQuestion = (id) => {
@@ -231,8 +273,8 @@ function App() {
       {isLandscape && (
         <div className={styles.orientationOverlay} role="dialog" aria-live="polite">
           <div>
-            <p style={{fontSize: '1.25rem', fontWeight: 600}}>Vänligen rotera din enhet till stående läge.</p>
-            <p className={styles.orientationHint}>Appen fungerar bäst i porträttläge &#x21bb;</p>
+            <p style={{fontSize: '1.25rem', fontWeight: 600}}>{t('rotate_prompt')}</p>
+            <p className={styles.orientationHint}>{t('rotate_hint')}</p>
           </div>
         </div>
       )}
@@ -250,7 +292,7 @@ function App() {
             <div className={styles.card}>
               {activeQuestion && (
                 <div className={styles.questionCategory}>
-                  {activeQuestion.category}
+                  {getCategoryLabel(activeQuestion.category)}
                 </div>
                 )}
 
@@ -260,8 +302,8 @@ function App() {
                   }`}
                 >
                     {activeQuestion
-                    ? activeQuestion.question
-                    : 'Inga frågor matchar dina inställningar'}
+                    ? getQuestionText(activeQuestion)
+                    : (t('no_matching_questions') || 'Inga frågor matchar dina inställningar')}
             </div>
 
               <button
