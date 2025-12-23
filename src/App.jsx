@@ -153,12 +153,28 @@ function App() {
   }, []);
 
   // --------------------
-  // ORIENTATION / LANDSCAPE HANDLING
+  // ORIENTATION / LANDSCAPE HANDLING (MOBILE ONLY)
   // --------------------
   const [isLandscape, setIsLandscape] = useState(false);
 
   useEffect(() => {
-    // Försök låsa orienteringen till portrait när det stöds
+    // Enkel mobildetektor: userAgent + pekskärmsindikator + small screen
+    const isMobileDevice = () => {
+      try {
+        const ua = navigator.userAgent || '';
+        const mobileUa = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+        const pointerCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+        const smallScreen = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+        return mobileUa || pointerCoarse || smallScreen;
+      } catch {
+        return false;
+      }
+    };
+
+    const mobile = isMobileDevice();
+    if (!mobile) return; // Do nothing on desktop / non-mobile devices
+
+    // Försök låsa orienteringen till portrait när det stöds (endast på mobil)
     (async () => {
       try {
         if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.lock) {
