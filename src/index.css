@@ -6,8 +6,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,18 +27,16 @@
   --container-max: 42rem; /* ~672px */
 
   /* Färger (monokrom bas) */
-  --c-fg: #000;
-  --c-bg: #fff;
+  --c-fg: #000;       
+  --c-bg: #fff;          
   --c-fg-invert: #fff;
-  --c-bg-invert: #000;
+  --c-bg-invert: #000; 
   --c-border: #000;
 }
 
 
 
-
-
-/* Dark Mode – följ systemets preferenser */
+/* Dark Mode - inverterade färger */
 @media (prefers-color-scheme: dark) {
   :root {
     --c-fg: #fff;
@@ -61,12 +57,12 @@ html, body {
 
 a {
   font-weight: 500;
-  color: #000000;
+  color: var(--c-fg);
   text-decoration: inherit;
 }
 a:hover {
-  color: #000000;
-}
+  color: var(--c-fg);
+} 
 
 body {
   margin: 0;
@@ -88,16 +84,17 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #000000;
+  background-color: var(--c-fg);
+  color: var(--c-bg);
   cursor: pointer;
-  transition: border-color 0.5s;
+  transition: border-color 0.5s, background-color 0.2s, color 0.2s;
 }
 
 button:hover {
-  background-color: #000000;
-  border-color: #ffffff;
-  color: #ffffff
-}¨
+  background-color: var(--c-fg);
+  border-color: var(--c-bg);
+  color: var(--c-bg);
+} 
 
 button:focus,
 button:focus-visible {
@@ -106,16 +103,13 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #000000;
-    background-color: #ffffff;
+    --c-fg: #000;
+    --c-bg: #fff;
+    --c-fg-invert: #fff;
+    --c-bg-invert: #000;
+    --c-border: #000;
   }
-  a:hover {
-    color: #000000;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+} 
 
 form {
   display: flex;
@@ -127,14 +121,17 @@ form {
 form input {
   font-size: 1.1rem;          
   padding: 0.75rem 1rem;      
-  border: 2px solid #000;     
+  border: 2px solid var(--c-border);     
   border-radius: 8px;
   font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-fg);
 }
 
 form input::placeholder {
-  color: #777;
-}
+  color: var(--c-fg);
+  opacity: 0.6;
+} 
 
 .addQuestionForm {
   display: flex;
@@ -146,9 +143,9 @@ form input::placeholder {
 .primaryBtn {
   font-size: 1rem;
   padding: 0.75rem 1rem;
-  border: 2px solid #000; /* alltid svart ram */
-  background: #fff;       /* vit bakgrund normalt */
-  color: #000;            /* svart text normalt */
+  border: 2px solid var(--c-border); /* ram följer variabel */
+  background: var(--c-bg);          /* bakgrund följer tema */
+  color: var(--c-fg);               /* text följer tema */
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
@@ -156,8 +153,8 @@ form input::placeholder {
 }
 
 .primaryBtn.active {
-  background: #000;  /* svart vid "flash" */
-  color: #fff;       /* vit text vid "flash" */
+  background: var(--c-fg);  /* inverterad stil vid "flash" */
+  color: var(--c-bg);
 }
 
 /* Ta bort alla :focus/:active regler som kan krocka */

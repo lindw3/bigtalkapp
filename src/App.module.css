@@ -58,6 +58,16 @@ html, body {
 .logo {
   width: var(--logo-size);
   height: var(--logo-size);
+  color: var(--c-fg);
+  flex-shrink: 0;
+  filter: none;
+  transition: filter 160ms linear;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert(1) brightness(1.25);
+  }
 }
 
 .title {
@@ -87,9 +97,9 @@ html, body {
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-2);
-  background: linear-gradient(145deg, #ffffff, #f0f0f0);
-  border: 2px solid rgba(0, 0, 0, 0.75);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  background: var(--c-bg);
+  border: 2px solid var(--c-border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   color: var(--c-fg);
   margin-top: var(--space-4);
 }
@@ -160,9 +170,9 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 0.25rem 0.5rem;
-  border: 2px solid #000;
+  border: 2px solid var(--c-border);
   border-radius: 12px;
-  background: #fff;
+  background: var(--c-bg);
   font-size: var(--fs-body);
 }
 
@@ -172,16 +182,16 @@ html, body {
   font-size: 1rem;
   cursor: pointer;
   line-height: 1;
-  color: rgb(0, 0, 0);
+  color: var(--c-fg);
 }
 
 /* NY FRÅGA-KNAPPEN */
 .primaryBtn {
   font-size: 1rem;
   padding: 0.75rem 1rem;
-  border: 2px solid #000;
-  background: #fff;
-  color: #000;
+  border: 2px solid var(--c-border);
+  background: var(--c-bg);
+  color: var(--c-fg);
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
@@ -190,19 +200,19 @@ html, body {
 
 
 .primaryBtn.active {
-  background: #000;
-  color: #fff;
+  background: var(--c-fg);
+  color: var(--c-bg);
 }
 
 .primaryBtn:hover {
-  background: #000;
-  color: #fff;
+  background: var(--c-fg);
+  color: var(--c-bg);
 }
 
 @media (hover: hover) {
   .primaryBtn:hover {
-    background: #000;
-    color: #fff;
+    background: var(--c-fg);
+    color: var(--c-bg);
   }
 }
 
@@ -220,16 +230,18 @@ html, body {
   flex-direction: column;
   font-weight: 500;
   font-size: 1rem;
-  color: #000;
+  color: var(--c-fg);
 }
 
 .addQuestionForm textarea {
   padding: 0.5rem;
   font-size: 16px;
-  border: 2px solid #000;
+  border: 2px solid var(--c-border);
   border-radius: 8px;
   outline: none;
   resize: vertical;
+  background: var(--c-bg);
+  color: var(--c-fg);
 }
 
 /* Orienterings-overlay för liggande fallback */
@@ -248,6 +260,13 @@ html, body {
 }
 .orientationOverlay p { margin: 0.25rem 0; }
 .orientationHint { opacity: 0.85; font-size: 0.95rem; margin-top: 0.25rem; }
+
+@media (prefers-color-scheme: dark) {
+  .orientationOverlay {
+    background: rgba(255, 255, 255, 0.92);
+    color: #000;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .orientationOverlay { transition: none; }

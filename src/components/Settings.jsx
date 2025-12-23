@@ -36,11 +36,11 @@ function Settings({ categories, enabled, setEnabled }) {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: '0.75rem 1rem',
-                border: '1px solid #000',
+                border: '1px solid var(--c-border)',
                 borderRadius: '999px',
                 cursor: 'pointer',
-                background: isOn ? '#000' : '#fff',
-                color: isOn ? '#fff' : '#000',
+                background: isOn ? 'var(--c-fg)' : 'var(--c-bg)',
+                color: isOn ? 'var(--c-bg)' : 'var(--c-fg)',
                 transition: 'all 0.2s ease'
               }}
             >

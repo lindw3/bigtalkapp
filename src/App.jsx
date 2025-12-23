@@ -310,9 +310,9 @@ function App() {
                 className={styles.primaryBtn}
                 onClick={handleNextQuestion}
                 style={{
-                  backgroundColor: btnPressed ? '#000' : '#fff',
-                  color: btnPressed ? '#fff' : '#000',
-                  borderColor: '#000',
+                  backgroundColor: btnPressed ? 'var(--c-fg)' : 'var(--c-bg)',
+                  color: btnPressed ? 'var(--c-bg)' : 'var(--c-fg)',
+                  borderColor: 'var(--c-border)',
                 }}
               >
                 Ny fråga
