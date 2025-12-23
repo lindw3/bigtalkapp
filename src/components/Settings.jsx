@@ -13,7 +13,7 @@ function Settings({ categories, enabled, setEnabled }) {
 
   return (
       <div style={{ display: 'flex', flexDirection: 'column'}}>
-      <div style={{ display: 'flex', alignItems: 'right', justifyContent: 'center'}}>
+      <div style={{ display: 'flex', alignItems: 'right', justifyContent: 'center', marginTop: '1rem'}}>
           <label >{t('language')}:</label>
           <select value={lang} onChange={(e) => setLang(e.target.value)}>
             <option value="sv">SV</option>
