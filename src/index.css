@@ -36,6 +36,10 @@
   --c-border: #000;
 }
 
+
+
+
+
 /* Dark Mode – följ systemets preferenser */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -88,11 +92,13 @@ button {
   cursor: pointer;
   transition: border-color 0.5s;
 }
+
 button:hover {
   background-color: #000000;
   border-color: #ffffff;
   color: #ffffff
-}
+}¨
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -110,7 +116,6 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
 
 form {
   display: flex;

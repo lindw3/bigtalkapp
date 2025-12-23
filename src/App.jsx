@@ -153,6 +153,49 @@ function App() {
   }, []);
 
   // --------------------
+  // ORIENTATION / LANDSCAPE HANDLING
+  // --------------------
+  const [isLandscape, setIsLandscape] = useState(false);
+
+  useEffect(() => {
+    // Försök låsa orienteringen till portrait när det stöds
+    (async () => {
+      try {
+        if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock('portrait');
+        }
+      } catch (err) {
+        // lock kan misslyckas på iOS eller utan användarinteraktion — ignorera
+      }
+    })();
+
+    // Fallback: visa overlay när vi är i liggande läge
+    const mq = window.matchMedia && window.matchMedia('(orientation: landscape)');
+    const handler = (e) => setIsLandscape(e.matches);
+    if (mq) {
+      setIsLandscape(mq.matches);
+      if (mq.addEventListener) mq.addEventListener('change', handler);
+      else mq.addListener(handler);
+    }
+
+    const resizeHandler = () => {
+      const isL = window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
+      setIsLandscape(!!isL);
+    };
+    window.addEventListener('resize', resizeHandler);
+    window.addEventListener('orientationchange', resizeHandler);
+
+    return () => {
+      if (mq) {
+        if (mq.removeEventListener) mq.removeEventListener('change', handler);
+        else mq.removeListener(handler);
+      }
+      window.removeEventListener('resize', resizeHandler);
+      window.removeEventListener('orientationchange', resizeHandler);
+    };
+  }, []);
+
+  // --------------------
   // OWN QUESTIONS
   // --------------------
   const ownQuestions = questions.filter(
@@ -169,6 +212,14 @@ function App() {
   // --------------------
   return (
     <div className={styles.app}>
+      {isLandscape && (
+        <div className={styles.orientationOverlay} role="dialog" aria-live="polite">
+          <div>
+            <p style={{fontSize: '1.25rem', fontWeight: 600}}>Vänligen rotera din enhet till stående läge.</p>
+            <p className={styles.orientationHint}>Appen fungerar bäst i porträttläge &#x21bb;</p>
+          </div>
+        </div>
+      )}
       <div className={styles.wrapper} style={{ padding: 'env(safe-area-inset, var(--space-4))' }}>
         {/* HEADER */}
         <header className={styles.header}>

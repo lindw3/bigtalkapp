@@ -18,15 +18,6 @@ html, body {
   align-items: center;
 }
 
-    /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .app {
-    position: relative;
-    height: auto;
-    min-height: 100dvh;
-    justify-content: flex-start;
-  }
-}
 
 
 .wrapper {
@@ -40,19 +31,9 @@ html, body {
   padding: env(safe-area-inset, var(--space-4));
   box-sizing: border-box;
   overflow: hidden;
-}
+} 
 
-    /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .wrapper {
-    justify-content: flex-start; /* 🔑 SLUTA trycka isär */
-    min-height: auto;
-    overflow-y: auto;
-  }
-}
-
-
-   /* Datorskärm */
+/* Desktop */
 @media (min-width: 768px) {
   .app {
     position: relative;
@@ -66,19 +47,13 @@ html, body {
   }
 }
 
-
 /* HEADER */
 .header {
   display: flex;
   align-items: center;
 }
 
-    /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .header {
-    flex-shrink: 0;
-  }
-}
+
 
 .logo {
   width: var(--logo-size);
@@ -97,84 +72,53 @@ html, body {
   color: var(--color-text-secondary);
 }
 
-
 .main {
   flex: 1;
 }
 
-    /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .main {
-    flex: 0;
-  }
-}
 
 
-
-/* FRÅGOR */
-
-    /* FRÅGERUTAN */
+/* FRÅGERUTAN */
 .card {
   border-radius: 12px;
   padding: var(--space-4);
-
   height: clamp(260px, 55dvh, 360px);
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-2);
-  background: linear-gradient(
-    145deg,          
-    #ffffff,        
-    #f0f0f0         
-  );
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
   border: 2px solid rgba(0, 0, 0, 0.75);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   color: var(--c-fg);
   margin-top: var(--space-4);
 }
 
-   /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .card {
-    height: clamp(200px, 32dvh, 260px);
-    padding: var(--space-3);
-  }
-}
 
-    /* Desktopanpassning */
+
+/* Desktopanpassning */
 @media (min-width: 768px) {
   .card {
     height: clamp(260px, 40vh, 340px);
   }
 }
 
-
-    /* FRÅGETEXT */
+/* FRÅGETEXT */
 .questionText {
+  display: block;
+  width: 100%;
   font-size: var(--fs-question);
   text-align: center;
   overflow-y: auto;
   flex: 1;
-}
-
-    /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .questionText {
-    font-size: clamp(0.95rem, 2.5vw, var(--fs-question));
-    line-height: 1.35;
-  }
-}
-
-    /* Fade + Slide för frågetext vid ny fråga */
-.questionText {
-  display: inline-block;          
   transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 1;
   transform: translateY(0);
 }
 
+
+
+/* Fade + Slide */
 .fade-slide-out {
   opacity: 0;
   transform: translateY(-20px);
@@ -185,7 +129,7 @@ html, body {
   transform: translateY(0);
 }
 
-    /* FRÅGEKATEGORI */
+/* FRÅGEKATEGORI */
 .questionCategory {
   font-size: 0.75rem;
   text-align: center;
@@ -195,8 +139,7 @@ html, body {
   margin-bottom: var(--space-2);
 }
 
-
-    /* Lista med egentillagda frågor */
+/* Lista med egentillagda frågor */
 .questionList {
   margin-top: var(--space-4);
   max-height: 40dvh;
@@ -236,25 +179,19 @@ html, body {
 .primaryBtn {
   font-size: 1rem;
   padding: 0.75rem 1rem;
-  border: 2px solid #000; /* alltid svart ram */
-  background: #fff;       /* vit bakgrund normalt */
-  color: #000;            /* svart text normalt */
+  border: 2px solid #000;
+  background: #fff;
+  color: #000;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-  /* Liggande skärm */
-@media (orientation: landscape) and (max-width: 932px) {
-  .primaryBtn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
-  }
-}
+
 
 .primaryBtn.active {
-  background: #000;  /* svart vid "flash" */
-  color: #fff;       /* vit text vid "flash" */
+  background: #000;
+  color: #fff;
 }
 
 .primaryBtn:hover {
@@ -294,3 +231,25 @@ html, body {
   outline: none;
   resize: vertical;
 }
+
+/* Orienterings-overlay för liggande fallback */
+.orientationOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  color: #fff;
+  z-index: 9999;
+  padding: 1rem;
+  text-align: center;
+  pointer-events: all;
+}
+.orientationOverlay p { margin: 0.25rem 0; }
+.orientationHint { opacity: 0.85; font-size: 0.95rem; margin-top: 0.25rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .orientationOverlay { transition: none; }
+}
+
