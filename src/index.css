@@ -16,11 +16,13 @@
   --space-2: clamp(0.75rem, 2.5vw, 1rem);
   --space-3: clamp(1rem, 3vw, 1.25rem);
   --space-4: clamp(1.25rem, 4vw, 2rem);
+  --space-5: clamp(5rem, 15vw, 10rem);
 
   /* Typografi (fluid) */
   --fs-body: clamp(0.95rem, 3.5vw, 1rem);
   --fs-question: clamp(2rem, 7vw, 3rem);
   --fs-title: clamp(3rem, 15vw, 8em);
+  --fs-button: clamp(1.25rem, 5vw, 2.5rem);
 
   /* Komponentmått (fluid) */
   --logo-size: clamp(68px, 23vw, 128px);
@@ -138,30 +140,6 @@ form input::placeholder {
   flex-direction: column;
   gap: var(--space-2);
   margin-top: var(--space-4);
-}
-
-.primaryBtn {
-  font-size: 1rem;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--c-border); /* ram följer variabel */
-  background: var(--c-bg);          /* bakgrund följer tema */
-  color: var(--c-fg);               /* text följer tema */
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-  outline: none;          /* ta bort fokusring */
-}
-
-.primaryBtn.active {
-  background: var(--c-fg);  /* inverterad stil vid "flash" */
-  color: var(--c-bg);
-}
-
-/* Ta bort alla :focus/:active regler som kan krocka */
-.primaryBtn:focus,
-.primaryBtn:active {
-  background: inherit;
-  color: inherit;
 }
 
 @media (max-width: 480px) {

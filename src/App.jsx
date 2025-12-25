@@ -287,7 +287,7 @@ function App() {
         </header>
 
         {/* MAIN */}
-        <main className={styles.main} style={{ flex: 1 }}>
+        <main className={`${styles.main} ${view === 'main' ? styles.centered : ''}`} style={{ flex: 1 }}>
           {view === 'main' && (
             <div className={styles.card}>
               {activeQuestion && (
@@ -315,7 +315,7 @@ function App() {
                   borderColor: 'var(--c-border)',
                 }}
               >
-                Ny fråga
+                {t('newQuestion')}
               </button>
             </div>
           )}

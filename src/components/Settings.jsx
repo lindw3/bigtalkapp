@@ -23,7 +23,7 @@ function Settings({ categories, enabled, setEnabled }) {
       <div style= {{display: 'flex', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
         <h2>{t('includeCategories')}</h2>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
         {categories.map(cat => {
           const isOn = enabled.includes(cat);
 
@@ -41,7 +41,7 @@ function Settings({ categories, enabled, setEnabled }) {
                 cursor: 'pointer',
                 background: isOn ? 'var(--c-fg)' : 'var(--c-bg)',
                 color: isOn ? 'var(--c-bg)' : 'var(--c-fg)',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.3s ease',
               }}
             >
               <span>{t(`categories.${cat}`) || cat}</span>

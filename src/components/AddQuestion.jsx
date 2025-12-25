@@ -45,7 +45,7 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
       });
 
       setQuestionText('');
-      setTimeout(() => setBtnPressed(false), 300);
+      setTimeout(() => setBtnPressed(false), 150);
     },
     [questionText, onAdd]
   );
@@ -63,9 +63,13 @@ export default function AddQuestion({ onAdd, ownQuestions, onDelete }) {
         />
 
         <button
-          type="submit"
-          className={`${styles.primaryBtn} ${btnPressed ? styles.active : ''}`}
-        >
+          className={styles.secondaryBtn}
+          style={{
+                  backgroundColor: btnPressed ? 'var(--c-fg)' : 'var(--c-bg)',
+                  color: btnPressed ? 'var(--c-bg)' : 'var(--c-fg)',
+                  borderColor: 'var(--c-border)',
+                }}
+          >
           {t('addButton')}
         </button>
       </form>

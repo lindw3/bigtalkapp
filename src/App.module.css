@@ -86,13 +86,22 @@ html, body {
   flex: 1;
 }
 
+/* Centrering som används endast för startsidan */
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
 
 
 /* FRÅGERUTAN */
 .card {
   border-radius: 12px;
   padding: var(--space-4);
-  height: clamp(260px, 55dvh, 360px);
+  height: clamp(260px, 60dvh, 400px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -101,7 +110,11 @@ html, body {
   border: 2px solid var(--c-border);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   color: var(--c-fg);
-  margin-top: var(--space-4);
+  margin: 0 auto;
+
+  /* Keep a consistent width regardless of content length */
+  width: clamp(280px, 100%, 560px);
+  box-sizing: border-box;
 }
 
 
@@ -149,6 +162,73 @@ html, body {
   margin-bottom: var(--space-2);
 }
 
+/* NY FRÅGA-KNAPPEN */
+.primaryBtn {
+  font-size: var(--fs-button);
+  padding: 0.75rem 1rem;
+  border: 4px solid var(--c-border);
+  border-radius: 12px;
+  margin-left: var(--space-4);
+  margin-right: var(--space-4);
+
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.primaryBtn.active {
+  background-color: var(--c-fg);
+  color: var(--c-bg);
+}
+
+.primaryBtn:hover {
+  background: var(--c-fg);
+  color: var(--c-bg);
+}
+
+@media (hover: hover) {
+  .primaryBtn:hover {
+    background: var(--c-fg);
+    color: var(--c-bg);
+  }
+}
+
+
+.secondaryBtn {
+  font-size: var(--fs-body);
+  padding: 0.75rem 1rem;
+  border: 4px solid var(--c-border);
+  border-radius: 12px;
+  margin-left: var(--space-5);
+  margin-right: var(--space-5);
+
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.secondaryBtn.active {
+  background-color: var(--c-fg);
+  color: var(--c-bg);
+}
+
+.secondaryBtn:hover {
+  background: var(--c-fg);
+  color: var(--c-bg);
+}
+
+@media (hover: hover) {
+  .secondaryBtn:hover {
+    background: var(--c-fg);
+    color: var(--c-bg);
+  }
+}
+
+
 /* Lista med egentillagda frågor */
 .questionList {
   margin-top: var(--space-4);
@@ -185,36 +265,7 @@ html, body {
   color: var(--c-fg);
 }
 
-/* NY FRÅGA-KNAPPEN */
-.primaryBtn {
-  font-size: 1rem;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--c-border);
-  background: var(--c-bg);
-  color: var(--c-fg);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
-}
 
-
-
-.primaryBtn.active {
-  background: var(--c-fg);
-  color: var(--c-bg);
-}
-
-.primaryBtn:hover {
-  background: var(--c-fg);
-  color: var(--c-bg);
-}
-
-@media (hover: hover) {
-  .primaryBtn:hover {
-    background: var(--c-fg);
-    color: var(--c-bg);
-  }
-}
 
 /* LÄGG TILL FRÅGA FORMULÄR */
 .addQuestionForm {
