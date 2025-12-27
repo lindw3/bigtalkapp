@@ -14,10 +14,11 @@
   gap: var(--space-2);
   background: var(--c-fg);
   color: var(--c-bg);
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
   font-size: var(--fs-body);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .promptText {
@@ -36,17 +37,22 @@
   background-color: var(--c-bg);
   color: var(--c-fg);
   border: none;
-  padding: 0.4rem 0.75rem;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
 }
 
 .installBtn:hover {
-  background-color: var(--c-fg);
-  color: var(--c-bg);
-  border: 1px solid var(--c-bg);
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+}
+
+.installBtn:active {
+  transform: translateY(1px);
 }
 
 .closeBtn {

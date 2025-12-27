@@ -11,19 +11,16 @@
 .navBtn {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-3);
   background: var(--c-bg);
   color: var(--c-fg);
-  border: 3px solid var(--c-border);
+  border: 2px solid var(--c-border);
   border-radius: 12px;
-  padding: var(--space-1) var(--space-2);
+  padding: 0.65rem var(--space-2);
   font-size: var(--fs-question);
   cursor: pointer;
-  transition:
-    background 300ms ease,
-    color 300ms ease,
-    border-color 300ms ease,
-    transform 200ms ease;
+  font-weight: 600;
+  transition: all 300ms ease;
 }
 
 .icon {
@@ -41,6 +38,7 @@
   background: var(--c-bg-invert);
   color: var(--c-fg-invert);
   border-color: var(--c-bg-invert);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* Aktiv vy: håll inverterad stil */
@@ -48,6 +46,7 @@
   background: var(--c-bg-invert);
   color: var(--c-fg-invert);
   border-color: var(--c-bg-invert);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Fokus: tillgänglighet */

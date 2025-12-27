@@ -115,6 +115,11 @@ html, body {
   /* Keep a consistent width regardless of content length */
   width: clamp(280px, 100%, 560px);
   box-sizing: border-box;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 
@@ -156,10 +161,11 @@ html, body {
 .questionCategory {
   font-size: 0.75rem;
   text-align: center;
-  opacity: 0.7;
-  letter-spacing: 0.1em;
+  opacity: 0.65;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: var(--space-2);
+  font-weight: 500;
 }
 
 /* NY FRÅGA-KNAPPEN */
@@ -181,25 +187,27 @@ html, body {
 .primaryBtn.active {
   background-color: var(--c-fg);
   color: var(--c-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .primaryBtn:hover {
   background: var(--c-fg);
   color: var(--c-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (hover: hover) {
   .primaryBtn:hover {
     background: var(--c-fg);
     color: var(--c-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }
 
-
 .secondaryBtn {
   font-size: var(--fs-body);
-  padding: 0.75rem 1rem;
-  border: 4px solid var(--c-border);
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--c-border);
   border-radius: 12px;
   margin-left: var(--space-5);
   margin-right: var(--space-5);
@@ -208,23 +216,27 @@ html, body {
   color: var(--c-fg);
 
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .secondaryBtn.active {
   background-color: var(--c-fg);
   color: var(--c-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .secondaryBtn:hover {
   background: var(--c-fg);
   color: var(--c-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 @media (hover: hover) {
   .secondaryBtn:hover {
     background: var(--c-fg);
     color: var(--c-bg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -249,11 +261,16 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  border: 2px solid var(--c-border);
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--c-border);
   border-radius: 12px;
   background: var(--c-bg);
   font-size: var(--fs-body);
+  transition: all 0.2s ease;
+}
+
+.questionListItem:hover {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .deleteBtn {
@@ -285,14 +302,27 @@ html, body {
 }
 
 .addQuestionForm textarea {
-  padding: 0.5rem;
-  font-size: 16px;
-  border: 2px solid var(--c-border);
-  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
   outline: none;
   resize: vertical;
   background: var(--c-bg);
   color: var(--c-fg);
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.addQuestionForm textarea:focus {
+  border-color: var(--c-fg);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  .addQuestionForm textarea:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  }
 }
 
 /* Orienterings-overlay för liggande fallback */

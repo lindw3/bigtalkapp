@@ -1,4 +1,5 @@
 import { useLocale } from '../locale/LocaleContext';
+import styles from './Settings.module.css';
 
 function Settings({ categories, enabled, setEnabled }) {
   const { t, lang, setLang } = useLocale();
@@ -12,43 +13,38 @@ function Settings({ categories, enabled, setEnabled }) {
   };
 
   return (
-      <div style={{ display: 'flex', flexDirection: 'column'}}>
-      <div style={{ display: 'flex', alignItems: 'right', justifyContent: 'center', marginTop: '1rem'}}>
-          <label >{t('language')}:</label>
-          <select value={lang} onChange={(e) => setLang(e.target.value)}>
-            <option value="sv">SV</option>
-            <option value="en">EN</option>
-          </select>
-        </div>
-      <div style= {{display: 'flex', justifyContent: 'center', gap: '1rem', alignItems: 'center' }}>
-        <h2>{t('includeCategories')}</h2>
+    <div className={styles.settingsContainer}>
+      <div className={styles.languageSection}>
+        <label className={styles.languageLabel}>{t('language')}:</label>
+        <select 
+          value={lang} 
+          onChange={(e) => setLang(e.target.value)}
+          className={styles.languageSelect}
+        >
+          <option value="sv">SV</option>
+          <option value="en">EN</option>
+        </select>
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-        {categories.map(cat => {
-          const isOn = enabled.includes(cat);
 
-          return (
-            <div
-              key={cat}
-              onClick={() => toggleCategory(cat)}
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '0.75rem 1rem',
-                border: '1px solid var(--c-border)',
-                borderRadius: '999px',
-                cursor: 'pointer',
-                background: isOn ? 'var(--c-fg)' : 'var(--c-bg)',
-                color: isOn ? 'var(--c-bg)' : 'var(--c-fg)',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <span>{t(`categories.${cat}`) || cat}</span>
-              <span>{isOn ? t('yes') : t('no')}</span>
-            </div>
-          );
-        })}
+      <div className={styles.categoriesSection}>
+        <h2 className={styles.categoriesTitle}>{t('includeCategories')}</h2>
+        
+        <div className={styles.categoriesList}>
+          {categories.map(cat => {
+            const isOn = enabled.includes(cat);
+
+            return (
+              <div
+                key={cat}
+                onClick={() => toggleCategory(cat)}
+                className={`${styles.categoryToggle} ${isOn ? styles.active : ''}`}
+              >
+                <span className={styles.categoryLabel}>{t(`categories.${cat}`) || cat}</span>
+                <span className={styles.categoryStatus}>{isOn ? t('yes') : t('no')}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
