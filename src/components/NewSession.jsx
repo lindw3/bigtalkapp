@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale } from '../locale/LocaleContext';
 import styles from './NewSession.module.css';
 
@@ -19,12 +19,41 @@ export default function NewSession({ questions, categories }) {
   const [index, setIndex] = useState(0);
   const [left, setLeft] = useState(0);
   const [running, setRunning] = useState(false);
+  const audioContextRef = useRef(null);
+  const signalledStepRef = useRef(-1);
 
   useEffect(() => {
     if (!running || left <= 0) return undefined;
     const id = setInterval(() => setLeft(value => Math.max(0, value - 1)), 1000);
     return () => clearInterval(id);
   }, [running, left]);
+
+  useEffect(() => {
+    if (!steps || index >= steps.length || left !== 0 || signalledStepRef.current === index) return;
+    signalledStepRef.current = index;
+
+    const context = audioContextRef.current;
+    if (!context) return;
+
+    const now = context.currentTime;
+    const gain = context.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.025);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+    gain.connect(context.destination);
+
+    [523.25, 783.99].forEach((frequency, toneIndex) => {
+      const oscillator = context.createOscillator();
+      const toneGain = context.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(frequency, now);
+      toneGain.gain.setValueAtTime(toneIndex === 0 ? 0.7 : 0.3, now);
+      oscillator.connect(toneGain);
+      toneGain.connect(gain);
+      oscillator.start(now);
+      oscillator.stop(now + 2.25);
+    });
+  }, [index, left, steps]);
 
   const available = useMemo(() => questions.filter(q => chosen.includes(q.category)), [questions, chosen]);
   const introTime = intro ? people * 30 : 0;
@@ -36,6 +65,22 @@ export default function NewSession({ questions, categories }) {
 
   const start = () => {
     if (!canStart) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+      const context = audioContextRef.current || new AudioContext();
+      audioContextRef.current = context;
+      context.resume();
+
+      // Unlock audio during the user's tap so the later signal can play on mobile.
+      const unlock = context.createOscillator();
+      const silentGain = context.createGain();
+      silentGain.gain.value = 0.0001;
+      unlock.connect(silentGain);
+      silentGain.connect(context.destination);
+      unlock.start();
+      unlock.stop(context.currentTime + 0.01);
+    }
+
     const selected = shuffle(available).slice(0, questionCount);
     const plan = [];
     if (intro) plan.push({ type: 'introduction', text: t('session.introductionPrompt'), seconds: introTime });
@@ -43,16 +88,21 @@ export default function NewSession({ questions, categories }) {
       plan.push({ type: 'question', text: text(q), category: q.category, seconds: minutesPerQuestion * 60 });
     });
     if (reflection) plan.push({ type: 'reflection', text: t('session.reflectionPrompt'), seconds: reflectionTime });
+    signalledStepRef.current = -1;
     setSteps(plan); setIndex(0); setLeft(plan[0].seconds); setRunning(true);
   };
 
   const next = () => {
     const nextIndex = index + 1;
+    signalledStepRef.current = -1;
     setIndex(nextIndex);
     if (nextIndex < steps.length) { setLeft(steps[nextIndex].seconds); setRunning(true); }
     else { setLeft(0); setRunning(false); }
   };
-  const reset = () => { setSteps(null); setIndex(0); setRunning(false); };
+  const reset = () => {
+    signalledStepRef.current = -1;
+    setSteps(null); setIndex(0); setRunning(false);
+  };
 
   if (steps) {
     if (index >= steps.length) return (
@@ -71,7 +121,7 @@ export default function NewSession({ questions, categories }) {
           <p className={styles.prompt}>{step.text}</p>
           <div className={styles.timer} aria-live="polite">{clock(left)}</div>
           <div className={styles.actions}>
-            <button onClick={() => setRunning(value => !value)}>{running ? t('session.pause') : t('session.resume')}</button>
+            <button disabled={left === 0} onClick={() => setRunning(value => !value)}>{running ? t('session.pause') : t('session.resume')}</button>
             <button className={styles.primary} onClick={next}>{index === steps.length - 1 ? t('session.finish') : t('session.next')}</button>
           </div>
         </article>
