@@ -8,6 +8,7 @@ import Settings from './components/Settings';
 import NewSession from './components/NewSession';
 import FooterNav from './components/FooterNav';
 import InstallPrompt from './components/InstallPrompt';
+import UpdatePrompt from './components/UpdatePrompt';
 
 function App() {
   // --------------------
@@ -342,6 +343,7 @@ function App() {
         </main>
 
         <FooterNav view={view} setView={setView} />
+        <UpdatePrompt />
         <InstallPrompt />
       </div>
     </div>

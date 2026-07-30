@@ -11,6 +11,12 @@
   "no_matching_questions": "No questions match your filters",
   "rotate_prompt": "Please rotate your device to portrait orientation.",
   "rotate_hint": "The app works best in portrait mode \u21bb",
+  "update": {
+    "available": "A new version of BigTalk is available. Your saved questions will be kept.",
+    "action": "Update now",
+    "updating": "Updating…",
+    "later": "Later"
+  },
   "navigation": {
     "questions": "Questions",
     "addQuestion": "Add question",
