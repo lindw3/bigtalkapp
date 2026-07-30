@@ -9,6 +9,17 @@
 .categories { display:flex; flex-wrap:wrap; gap:.5rem; }
 .categories button { flex:1 1 45%; padding:.55rem .7rem; font-size:.9rem; }
 .selected,.primary,.start { background:var(--c-bg-invert); color:var(--c-fg-invert); border-color:var(--c-bg-invert); }
+.categories button:not(.selected),
+.categories button:not(.selected):hover,
+.categories button:not(.selected):focus,
+.toggle button:not(.selected),
+.toggle button:not(.selected):hover,
+.toggle button:not(.selected):focus {
+  background:var(--c-bg);
+  color:var(--c-fg);
+  border-color:var(--c-border);
+  box-shadow:none;
+}
 .toggle { display:flex; justify-content:space-between; align-items:center; gap:1rem; font-weight:600; }
 .toggle button { min-width:4.5rem; }
 .summary { display:flex; flex-direction:column; padding:.85rem 1rem; border:1px solid var(--c-border); border-radius:12px; font-size:.9rem; }

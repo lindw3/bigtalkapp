@@ -32,8 +32,9 @@ export default function NewSession({ questions, categories }) {
   const introTime = intro ? people * 30 : 0;
   const reflectionTime = reflection ? people * 60 : 0;
   const questionTime = Math.max(0, duration * 60 - introTime - reflectionTime);
-  const count = Math.min(available.length, Math.max(1, Math.floor(questionTime / Math.max(people * 60, 180))));
-  const canStart = available.length > 0 && questionTime >= 60;
+  const minimumQuestionTime = Math.min(12, 6 + Math.max(0, people - 2) * 2) * 60;
+  const count = Math.min(available.length, Math.floor(questionTime / minimumQuestionTime));
+  const canStart = available.length > 0 && count > 0;
   const text = q => typeof q.question === 'string' ? q.question : q.question?.[lang] || q.question?.sv || '';
 
   const start = () => {
