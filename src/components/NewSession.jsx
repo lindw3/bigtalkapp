@@ -36,22 +36,25 @@ export default function NewSession({ questions, categories }) {
     if (!context) return;
 
     const now = context.currentTime;
-    const gain = context.createGain();
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(0.16, now + 0.025);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
-    gain.connect(context.destination);
+    [0, 0.85, 1.7].forEach((delay) => {
+      const strikeTime = now + delay;
+      const strikeGain = context.createGain();
+      strikeGain.gain.setValueAtTime(0.0001, strikeTime);
+      strikeGain.gain.exponentialRampToValueAtTime(0.14, strikeTime + 0.025);
+      strikeGain.gain.exponentialRampToValueAtTime(0.0001, strikeTime + 1.35);
+      strikeGain.connect(context.destination);
 
-    [523.25, 783.99].forEach((frequency, toneIndex) => {
-      const oscillator = context.createOscillator();
-      const toneGain = context.createGain();
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(frequency, now);
-      toneGain.gain.setValueAtTime(toneIndex === 0 ? 0.7 : 0.3, now);
-      oscillator.connect(toneGain);
-      toneGain.connect(gain);
-      oscillator.start(now);
-      oscillator.stop(now + 2.25);
+      [523.25, 783.99].forEach((frequency, toneIndex) => {
+        const oscillator = context.createOscillator();
+        const toneGain = context.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, strikeTime);
+        toneGain.gain.setValueAtTime(toneIndex === 0 ? 0.7 : 0.3, strikeTime);
+        oscillator.connect(toneGain);
+        toneGain.connect(strikeGain);
+        oscillator.start(strikeTime);
+        oscillator.stop(strikeTime + 1.4);
+      });
     });
   }, [index, left, steps]);
 
