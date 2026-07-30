@@ -2,13 +2,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocale } from '../locale/LocaleContext';
 import styles from './NewSession.module.css';
 
-const TIMES = Array.from({ length: 12 }, (_, i) => (i + 1) * 5);
+const QUESTION_COUNTS = Array.from({ length: 20 }, (_, i) => i + 1);
+const QUESTION_TIMES = Array.from({ length: 15 }, (_, i) => i + 1);
 const shuffle = items => [...items].sort(() => Math.random() - 0.5);
 const clock = seconds => `${Math.floor(Math.max(0, seconds) / 60)}:${String(Math.max(0, seconds) % 60).padStart(2, '0')}`;
 
 export default function NewSession({ questions, categories }) {
   const { t, lang } = useLocale();
-  const [duration, setDuration] = useState(30);
+  const [questionCount, setQuestionCount] = useState(4);
+  const [minutesPerQuestion, setMinutesPerQuestion] = useState(8);
   const [people, setPeople] = useState(4);
   const [chosen, setChosen] = useState(categories);
   const [intro, setIntro] = useState(true);
@@ -19,10 +21,6 @@ export default function NewSession({ questions, categories }) {
   const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    setChosen(current => [...current.filter(c => categories.includes(c)), ...categories.filter(c => !current.includes(c))]);
-  }, [categories]);
-
-  useEffect(() => {
     if (!running || left <= 0) return undefined;
     const id = setInterval(() => setLeft(value => Math.max(0, value - 1)), 1000);
     return () => clearInterval(id);
@@ -31,21 +29,18 @@ export default function NewSession({ questions, categories }) {
   const available = useMemo(() => questions.filter(q => chosen.includes(q.category)), [questions, chosen]);
   const introTime = intro ? people * 30 : 0;
   const reflectionTime = reflection ? people * 60 : 0;
-  const questionTime = Math.max(0, duration * 60 - introTime - reflectionTime);
-  const minimumQuestionTime = Math.min(12, 6 + Math.max(0, people - 2) * 2) * 60;
-  const count = Math.min(available.length, Math.floor(questionTime / minimumQuestionTime));
-  const canStart = available.length > 0 && count > 0;
+  const questionTime = questionCount * minutesPerQuestion * 60;
+  const totalTime = introTime + questionTime + reflectionTime;
+  const canStart = available.length >= questionCount;
   const text = q => typeof q.question === 'string' ? q.question : q.question?.[lang] || q.question?.sv || '';
 
   const start = () => {
     if (!canStart) return;
-    const selected = shuffle(available).slice(0, count);
-    const perQuestion = Math.floor(questionTime / selected.length);
-    let remainder = questionTime - perQuestion * selected.length;
+    const selected = shuffle(available).slice(0, questionCount);
     const plan = [];
     if (intro) plan.push({ type: 'introduction', text: t('session.introductionPrompt'), seconds: introTime });
     selected.forEach(q => {
-      plan.push({ type: 'question', text: text(q), category: q.category, seconds: perQuestion + (remainder-- > 0 ? 1 : 0) });
+      plan.push({ type: 'question', text: text(q), category: q.category, seconds: minutesPerQuestion * 60 });
     });
     if (reflection) plan.push({ type: 'reflection', text: t('session.reflectionPrompt'), seconds: reflectionTime });
     setSteps(plan); setIndex(0); setLeft(plan[0].seconds); setRunning(true);
@@ -88,9 +83,14 @@ export default function NewSession({ questions, categories }) {
   return (
     <section className={styles.container}>
       <header><h2>{t('session.title')}</h2><p>{t('session.description')}</p></header>
-      <label className={styles.field}>{t('session.duration')}
-        <select value={duration} onChange={e => setDuration(Number(e.target.value))}>
-          {TIMES.map(value => <option key={value} value={value}>{value} {t('session.minutes')}</option>)}
+      <label className={styles.field}>{t('session.questionCount')}
+        <select value={questionCount} onChange={e => setQuestionCount(Number(e.target.value))}>
+          {QUESTION_COUNTS.map(value => <option key={value} value={value}>{value}</option>)}
+        </select>
+      </label>
+      <label className={styles.field}>{t('session.timePerQuestion')}
+        <select value={minutesPerQuestion} onChange={e => setMinutesPerQuestion(Number(e.target.value))}>
+          {QUESTION_TIMES.map(value => <option key={value} value={value}>{value} {t('session.minutes')}</option>)}
         </select>
       </label>
       <label className={styles.field}>{t('session.participants')}
@@ -105,11 +105,12 @@ export default function NewSession({ questions, categories }) {
       <div className={styles.toggle}><span>{t('session.includeIntroduction')}</span><button className={intro ? styles.selected : ''} onClick={() => setIntro(v => !v)}>{intro ? t('yes') : t('no')}</button></div>
       <div className={styles.toggle}><span>{t('session.includeReflection')}</span><button className={reflection ? styles.selected : ''} onClick={() => setReflection(v => !v)}>{reflection ? t('yes') : t('no')}</button></div>
       <div className={styles.summary}><strong>{t('session.plan')}</strong>
-        <span>{count} {t('session.questions')} · {clock(count ? Math.floor(questionTime / count) : 0)} {t('session.perQuestion')}</span>
+        <span>{questionCount} {t('session.questions')} · {clock(minutesPerQuestion * 60)} {t('session.perQuestion')}</span>
         {intro && <span>{t('session.introduction')}: {clock(introTime)}</span>}
         {reflection && <span>{t('session.reflection')}: {clock(reflectionTime)}</span>}
+        <strong className={styles.total}>{t('session.totalTime')}: {clock(totalTime)}</strong>
       </div>
-      {!canStart && <p className={styles.warning}>{available.length ? t('session.timeWarning') : t('session.selectCategoryWarning')}</p>}
+      {!canStart && <p className={styles.warning}>{available.length ? t('session.notEnoughQuestions') : t('session.selectCategoryWarning')}</p>}
       <button className={styles.start} disabled={!canStart} onClick={start}>{t('session.start')}</button>
     </section>
   );
