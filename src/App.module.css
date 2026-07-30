@@ -85,6 +85,7 @@ html, body {
 .main {
   flex: 1;
 }
+.scrollable { min-height: 0; overflow-y: auto; padding-right: .2rem; }
 
 /* Centrering som används endast för startsidan */
 .centered {

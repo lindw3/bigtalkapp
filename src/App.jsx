@@ -5,6 +5,7 @@ import styles from './App.module.css';
 import defaultQuestions from './data/defaultQuestions';
 import AddQuestion from './components/AddQuestion';
 import Settings from './components/Settings';
+import NewSession from './components/NewSession';
 import FooterNav from './components/FooterNav';
 import InstallPrompt from './components/InstallPrompt';
 
@@ -47,7 +48,7 @@ function App() {
   // UI STATE
   // --------------------
   const [activeQuestion, setActiveQuestion] = useState(null);
-  const [view, setView] = useState('main'); // main | add | settings
+  const [view, setView] = useState('main'); // main | add | session | settings
   const [animating, setAnimating] = useState(false);
   const [btnPressed, setBtnPressed] = useState(false);
 
@@ -287,7 +288,7 @@ function App() {
         </header>
 
         {/* MAIN */}
-        <main className={`${styles.main} ${view === 'main' ? styles.centered : ''}`} style={{ flex: 1 }}>
+        <main className={`${styles.main} ${view === 'main' ? styles.centered : ''} ${view === 'session' ? styles.scrollable : ''}`} style={{ flex: 1 }}>
           {view === 'main' && (
             <div className={styles.card}>
               {activeQuestion && (
@@ -337,6 +338,7 @@ function App() {
               setEnabled={setEnabledCategories}
             />
           )}
+          {view === 'session' && <NewSession questions={questions} categories={allCategories} />}
         </main>
 
         <FooterNav view={view} setView={setView} />
